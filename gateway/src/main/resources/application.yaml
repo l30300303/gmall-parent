@@ -3,6 +3,11 @@ server:
 spring:
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':     # 请求地址规则
+            allowedOrigins: "*"
+            allowedMethods: "*"
       routes:
         - id: service-product
           uri: lb://service-product
