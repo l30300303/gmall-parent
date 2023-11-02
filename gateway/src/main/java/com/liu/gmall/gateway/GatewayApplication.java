@@ -1,4 +1,4 @@
-package com.liu.gmall;
+package com.liu.gmall.gateway;
 /*
  *@title GatewayApplication
  *@description

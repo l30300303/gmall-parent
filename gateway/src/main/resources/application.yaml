@@ -8,6 +8,7 @@ spring:
           '[/**]':     # 请求地址规则
             allowedOrigins: "*"
             allowedMethods: "*"
+            allowedHeaders: "*"
       routes:
         - id: service-product
           uri: lb://service-product
