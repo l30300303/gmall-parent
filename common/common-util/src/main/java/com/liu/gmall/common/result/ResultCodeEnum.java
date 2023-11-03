@@ -28,6 +28,9 @@ public enum ResultCodeEnum {
     SECKILL_ORDER_SUCCESS(218, "下单成功"),
     COUPON_GET(220, "优惠券已经领取"),
     COUPON_LIMIT_GET(221, "优惠券已发放完毕"),
+    ERROR_SPU_REF(222, "被SPU所关联, 不能删除") ,
+    ERROR_SKU_REF(223, "被SKU所关联, 不能删除") ,
+    SYSTEM_ERROR(224, "网络波动，请稍后重试！"),
     ;
 
     private Integer code;

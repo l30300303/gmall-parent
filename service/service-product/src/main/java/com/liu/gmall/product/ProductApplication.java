@@ -14,6 +14,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.liu.gmall.product.mapper")
+//导入全局异常处理方法一
+//@Import(GlobalExceptionHandler.class)
+//使用注解的方式导入全局异常处理  方法二
+//@EnableGlobalExceptionHandler
 public class ProductApplication {
 
     public static void main(String[] args) {
