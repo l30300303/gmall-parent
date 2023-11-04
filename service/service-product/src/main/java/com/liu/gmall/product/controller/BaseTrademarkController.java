@@ -37,7 +37,7 @@ public class BaseTrademarkController {
     }
 
     @PutMapping("/baseTrademark/update")
-    public Result updateBaseTrademark(BaseTrademark baseTrademark) {
+    public Result updateBaseTrademark(@RequestBody BaseTrademark baseTrademark) {
         baseTrademarkService.updateById(baseTrademark);
         return Result.ok();
     }

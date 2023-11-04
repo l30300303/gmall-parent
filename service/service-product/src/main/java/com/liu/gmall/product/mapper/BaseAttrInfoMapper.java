@@ -2,6 +2,9 @@ package com.liu.gmall.product.mapper;
 
 import com.liu.gmall.product.entity.BaseAttrInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import feign.Param;
+
+import java.util.List;
 
 /**
 * @author L3030
@@ -11,6 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface BaseAttrInfoMapper extends BaseMapper<BaseAttrInfo> {
 
+    List<BaseAttrInfo> attrInfoList(@Param("category1Id") Long category1Id, @Param("category2Id") Long category2Id, @Param("category3Id") Long category3Id);
 }
 
 
