@@ -1,7 +1,11 @@
 package com.liu.gmall.product.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.liu.gmall.product.dto.SpuInfoDto;
 import com.liu.gmall.product.entity.SpuInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
 * @author L3030
@@ -10,4 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SpuInfoService extends IService<SpuInfo> {
 
+    Page<SpuInfo> getSpuInfoByPage(Integer pageNo, Integer pageSize, Long category3Id);
+
+    void saveSpuInfo(SpuInfoDto spuInfoDto);
 }

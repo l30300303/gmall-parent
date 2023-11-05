@@ -1,5 +1,6 @@
 package com.liu.gmall.product.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liu.gmall.product.entity.SkuInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -10,4 +11,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SkuInfoService extends IService<SkuInfo> {
 
+    Page<SkuInfo> getSkuInfoByPage(Integer pageNo, Integer pageSize);
+
+    void onSale(Long skuId);
+
+    void cancelSale(Long skuId);
 }
