@@ -33,7 +33,7 @@ public class FileUploadServiceImpl implements FileUploadService {
     public String fileUpload(MultipartFile file) {
         try {
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-            String fileName = new SimpleDateFormat("yyyy/MM/dd").format(new Date()) + "/"+ UUID.randomUUID().toString().replace("-","") + extension;
+            String fileName = new SimpleDateFormat("yyyy/MM/dd").format(new Date()) + "/"+ UUID.randomUUID().toString().replace("-","") + "." + extension;
             minioClient.putObject(PutObjectArgs
                     .builder()
                             .bucket(minioProperties.getBucket())

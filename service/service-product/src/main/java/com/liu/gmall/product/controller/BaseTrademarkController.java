@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import zipkin2.Call;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/product")
 public class BaseTrademarkController {
@@ -52,6 +54,13 @@ public class BaseTrademarkController {
     public Result<BaseTrademark> getBaseTrademarkById(@PathVariable("id") Long id) {
         BaseTrademark baseTrademark = baseTrademarkService.getById(id);
         return Result.ok(baseTrademark);
+    }
+
+
+    @GetMapping("/baseTrademark/getTrademarkList")
+    public Result<List<BaseTrademark>> getTrademarkList() {
+        List<BaseTrademark> list = baseTrademarkService.list();
+        return Result.ok(list);
     }
 
 }
