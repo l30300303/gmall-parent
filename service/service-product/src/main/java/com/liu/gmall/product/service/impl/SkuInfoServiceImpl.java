@@ -1,5 +1,6 @@
 package com.liu.gmall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liu.gmall.product.entity.SkuInfo;
@@ -20,6 +21,22 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     public Page<SkuInfo> getSkuInfoByPage(Integer pageNo, Integer pageSize) {
         Page<SkuInfo> page = new Page<>(pageNo, pageSize);
         return page(page);
+    }
+
+    @Override
+    public void onSale(Long skuId) {
+        LambdaUpdateWrapper<SkuInfo> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(SkuInfo::getId, skuId);
+        lambdaUpdateWrapper.set(SkuInfo::getIsSale, 1);
+        update(lambdaUpdateWrapper);
+    }
+
+    @Override
+    public void cancelSale(Long skuId) {
+        LambdaUpdateWrapper<SkuInfo> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(SkuInfo::getId, skuId);
+        lambdaUpdateWrapper.set(SkuInfo::getIsSale, 0);
+        update(lambdaUpdateWrapper);
     }
 }
 

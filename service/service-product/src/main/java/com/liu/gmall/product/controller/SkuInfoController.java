@@ -15,10 +15,7 @@ import com.liu.gmall.product.service.SkuInfoService;
 import feign.Param;
 import org.simpleframework.xml.Path;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/product")
@@ -31,5 +28,23 @@ public class SkuInfoController {
     public Result<Page<SkuInfo>> getSkuInfoByPage(@PathVariable("page") Integer pageNo, @PathVariable("limit") Integer pageSize){
         Page<SkuInfo> page = skuInfoService.getSkuInfoByPage(pageNo,pageSize);
         return Result.ok(page);
+    }
+
+    @GetMapping("/onSale/{skuId}")
+    public Result onSale(@PathVariable("skuId") Long skuId){
+        skuInfoService.onSale(skuId);
+        return Result.ok();
+    }
+
+    @GetMapping("/cancelSale/{skuId}")
+    public Result cancelSale(@PathVariable("skuId") Long skuId){
+        skuInfoService.cancelSale(skuId);
+        return Result.ok();
+    }
+
+    @PostMapping("/saveSkuInfo")
+    public Result saveSkuInfo(){
+        //skuInfoService.saveSkuInfo();
+        return Result.ok();
     }
 }

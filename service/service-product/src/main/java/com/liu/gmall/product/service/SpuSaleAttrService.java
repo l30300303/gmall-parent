@@ -1,7 +1,9 @@
 package com.liu.gmall.product.service;
 
-import com.liu.gmall.product.entity.SpuSaleAttr;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.liu.gmall.product.entity.SpuSaleAttr;
+
+import java.util.List;
 
 /**
 * @author L3030
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SpuSaleAttrService extends IService<SpuSaleAttr> {
 
+    List<SpuSaleAttr> spuSaleAttrList(Long spuId);
 }
