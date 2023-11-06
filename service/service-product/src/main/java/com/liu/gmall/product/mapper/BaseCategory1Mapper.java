@@ -1,6 +1,6 @@
 package com.liu.gmall.product.mapper;
 
-import com.liu.gmall.item.vo.CategoryVo;
+import com.liu.gmall.product.vo.CategoryVo;
 import com.liu.gmall.product.entity.BaseCategory1;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

@@ -10,7 +10,7 @@ package com.liu.gmall.feign.product.fallback;
 
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.feign.product.BaseCategoryFeignClient;
-import com.liu.gmall.item.vo.CategoryVo;
+import com.liu.gmall.product.vo.CategoryVo;
 
 import java.util.List;
 

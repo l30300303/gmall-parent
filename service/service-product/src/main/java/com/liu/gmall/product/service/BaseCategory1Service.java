@@ -1,6 +1,6 @@
 package com.liu.gmall.product.service;
 
-import com.liu.gmall.item.vo.CategoryVo;
+import com.liu.gmall.product.vo.CategoryVo;
 import com.liu.gmall.product.entity.BaseCategory1;
 import com.baomidou.mybatisplus.extension.service.IService;
 

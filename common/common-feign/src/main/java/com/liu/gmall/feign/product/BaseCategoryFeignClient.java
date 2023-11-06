@@ -9,7 +9,7 @@ package com.liu.gmall.feign.product;
 
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.feign.product.fallback.BaseCategoryFeignClientFallback;
-import com.liu.gmall.item.vo.CategoryVo;
+import com.liu.gmall.product.vo.CategoryVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

@@ -12,13 +12,13 @@
     <sql id="Base_Column_List">
         id,name
     </sql>
-    <resultMap id="FindAllCategoryMap" type="com.liu.gmall.item.vo.CategoryVo">
+    <resultMap id="FindAllCategoryMap" type="com.liu.gmall.product.vo.CategoryVo">
         <id property="categoryId" column="id" jdbcType="BIGINT"/>
         <result property="categoryName" column="name" jdbcType="VARCHAR"/>
-        <collection property="categoryChild" ofType="com.liu.gmall.item.vo.CategoryVo">
+        <collection property="categoryChild" ofType="com.liu.gmall.product.vo.CategoryVo">
             <id property="categoryId" column="bc2Id"/>
             <result property="categoryName" column="bc2Name"/>
-            <collection property="categoryChild" ofType="com.liu.gmall.item.vo.CategoryVo">
+            <collection property="categoryChild" ofType="com.liu.gmall.product.vo.CategoryVo">
                 <id property="categoryId" column="bc3Id"/>
                 <result property="categoryName" column="bc3Name"/>
             </collection>

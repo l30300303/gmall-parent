@@ -10,7 +10,7 @@ package com.liu.gmall.product.api;
 
 
 import com.liu.gmall.common.result.Result;
-import com.liu.gmall.item.vo.CategoryVo;
+import com.liu.gmall.product.vo.CategoryVo;
 import com.liu.gmall.product.service.BaseCategory1Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

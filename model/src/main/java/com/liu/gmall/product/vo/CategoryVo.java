@@ -1,4 +1,4 @@
-package com.liu.gmall.item.vo;
+package com.liu.gmall.product.vo;
 /*
  *@title CategoryView
  *@description
