@@ -26,6 +26,7 @@
             <result property="spuId" column="ssId"/>
             <result property="baseSaleAttrId" column="base_sale_attr_id"/>
             <result property="saleAttrValueName" column="sale_attr_value_name"/>
+            <result property="saleAttrName" column="ssavName"/>
         </collection>
     </resultMap>
     <select id="spuSaleAttrList" resultMap="spuSaleAttrListMap">
@@ -36,7 +37,8 @@
                ssav.id                sId,
                ssav.spu_id            ssId,
                ssav.base_sale_attr_id sbId,
-               ssav.sale_attr_value_name
+               ssav.sale_attr_value_name,
+               ssav.sale_attr_name ssavName
         from spu_sale_attr ssa
         left join spu_sale_attr_value ssav
         on ssa.spu_id = ssav.spu_id and ssa.base_sale_attr_id = ssav.base_sale_attr_id

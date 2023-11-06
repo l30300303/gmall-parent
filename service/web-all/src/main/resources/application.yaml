@@ -1,0 +1,10 @@
+server:
+  port: 20100
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+feign:
+  sentinel:
+    enabled: true

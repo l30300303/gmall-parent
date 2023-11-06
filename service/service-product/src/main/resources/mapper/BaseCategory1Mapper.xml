@@ -12,4 +12,29 @@
     <sql id="Base_Column_List">
         id,name
     </sql>
+    <resultMap id="FindAllCategoryMap" type="com.liu.gmall.item.vo.CategoryVo">
+        <id property="categoryId" column="id" jdbcType="BIGINT"/>
+        <result property="categoryName" column="name" jdbcType="VARCHAR"/>
+        <collection property="categoryChild" ofType="com.liu.gmall.item.vo.CategoryVo">
+            <id property="categoryId" column="bc2Id"/>
+            <result property="categoryName" column="bc2Name"/>
+            <collection property="categoryChild" ofType="com.liu.gmall.item.vo.CategoryVo">
+                <id property="categoryId" column="bc3Id"/>
+                <result property="categoryName" column="bc3Name"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="findAllCategory" resultMap="FindAllCategoryMap">
+        SELECT bc1.id,
+               bc1.name,
+               bc2.id   bc2Id,
+               bc2.name bc2Name,
+               bc3.id   bc3Id,
+               bc3.name bc3Name
+        FROM base_category1 bc1
+        left join base_category2 bc2
+        on bc1.id = bc2.category1_id
+        LEFT JOIN base_category3 bc3
+        on bc2.id = bc3.category2_id
+    </select>
 </mapper>

@@ -1,7 +1,10 @@
 package com.liu.gmall.product.service;
 
+import com.liu.gmall.item.vo.CategoryVo;
 import com.liu.gmall.product.entity.BaseCategory1;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
 * @author L3030
@@ -10,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface BaseCategory1Service extends IService<BaseCategory1> {
 
+    List<CategoryVo> findAllCategory();
 }
