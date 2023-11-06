@@ -16,6 +16,7 @@
     <modules>
         <module>common-util</module>
         <module>common-service</module>
+        <module>common-feign</module>
     </modules>
 
     <properties>
