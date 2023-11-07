@@ -37,4 +37,19 @@
         LEFT JOIN base_category3 bc3
         on bc2.id = bc3.category2_id
     </select>
+    <select id="findCategoryViewBySkuId" resultType="com.liu.gmall.item.vo.CategoryView">
+        SELECT bc1.id   category1Id,
+               bc1.name category1Name,
+               bc2.id   category2Id,
+               bc2.name category2Name,
+               bc3.id   category3Id,
+               bc3.name category3Name
+        from base_category1 bc1
+        left join base_category2 bc2
+        on bc1.id = bc2.category1_id
+        LEFT JOIN base_category3 bc3
+        on bc2.id = bc3.category2_id
+        where bc3.id =
+        (SELECT si.category3_id from sku_info si where si.id = #{skuId})
+    </select>
 </mapper>

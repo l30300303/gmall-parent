@@ -1,0 +1,10 @@
+server:
+  port: 10200
+
+feign:
+  sentinel:
+    enabled: true
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
