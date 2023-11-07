@@ -1,8 +1,10 @@
 package com.liu.gmall.product.mapper;
 
-import com.liu.gmall.item.vo.CategoryVo;
+import com.liu.gmall.item.vo.CategoryView;
+import com.liu.gmall.product.vo.CategoryVo;
 import com.liu.gmall.product.entity.BaseCategory1;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ import java.util.List;
 public interface BaseCategory1Mapper extends BaseMapper<BaseCategory1> {
 
     List<CategoryVo> findAllCategory();
+
+    CategoryView findCategoryViewBySkuId(@Param("skuId") Long skuId);
 }
 
 

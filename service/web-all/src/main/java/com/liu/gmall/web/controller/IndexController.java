@@ -10,7 +10,7 @@ package com.liu.gmall.web.controller;
 
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.feign.product.BaseCategoryFeignClient;
-import com.liu.gmall.item.vo.CategoryVo;
+import com.liu.gmall.product.vo.CategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

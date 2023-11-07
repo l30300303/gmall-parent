@@ -15,6 +15,9 @@
             <result property="category3Id" column="category3_id" jdbcType="BIGINT"/>
             <result property="skuDefaultImg" column="sku_default_img" jdbcType="VARCHAR"/>
             <result property="isSale" column="is_sale" jdbcType="TINYINT"/>
+        <collection property="skuImageList" ofType="com.liu.gmall.product.entity.SkuImage" autoMapping="true">
+            <id property="id" column="imgId"/>
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -23,4 +26,17 @@
         tm_id,category3_id,sku_default_img,
         is_sale
     </sql>
+    <select id="findSkuInfoAndImageBySkuId" resultMap="BaseResultMap">
+        select si.*,
+               img.id imgId,
+               img.sku_id,
+               img.img_name,
+               img.img_url,
+               img.spu_img_id,
+               img.is_default
+        from sku_info si
+        LEFT JOIN sku_image img
+        on img.sku_id = si.id
+        where si.id = 49
+    </select>
 </mapper>

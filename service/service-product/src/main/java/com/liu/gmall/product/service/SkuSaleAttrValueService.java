@@ -2,6 +2,9 @@ package com.liu.gmall.product.service;
 
 import com.liu.gmall.product.entity.SkuSaleAttrValue;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.liu.gmall.product.vo.AttrValueConcatVo;
+
+import java.util.List;
 
 /**
 * @author L3030
@@ -10,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValue> {
 
+    List<AttrValueConcatVo> findAttrValueConcatBySkuId(Long skuId);
 }

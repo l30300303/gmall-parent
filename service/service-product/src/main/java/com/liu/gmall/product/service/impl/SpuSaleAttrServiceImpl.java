@@ -28,6 +28,11 @@ public class SpuSaleAttrServiceImpl extends ServiceImpl<SpuSaleAttrMapper, SpuSa
     public List<SpuSaleAttr> spuSaleAttrList(Long spuId) {
         return spuSaleAttrMapper.spuSaleAttrList(spuId);
     }
+
+    @Override
+    public List<SpuSaleAttr> findSpuSaleAttrAndSaleAttrValue(Long skuId) {
+        return baseMapper.findSpuSaleAttrAndSaleAttrValue(skuId);
+    }
 }
 
 

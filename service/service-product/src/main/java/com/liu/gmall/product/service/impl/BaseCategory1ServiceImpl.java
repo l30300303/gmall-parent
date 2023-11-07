@@ -1,7 +1,8 @@
 package com.liu.gmall.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.liu.gmall.item.vo.CategoryVo;
+import com.liu.gmall.item.vo.CategoryView;
+import com.liu.gmall.product.vo.CategoryVo;
 import com.liu.gmall.product.entity.BaseCategory1;
 import com.liu.gmall.product.service.BaseCategory1Service;
 import com.liu.gmall.product.mapper.BaseCategory1Mapper;
@@ -25,6 +26,11 @@ public class BaseCategory1ServiceImpl extends ServiceImpl<BaseCategory1Mapper, B
     @Override
     public List<CategoryVo> findAllCategory() {
         return baseCategory1Mapper.findAllCategory();
+    }
+
+    @Override
+    public CategoryView findCategoryViewBySkuId(Long skuId) {
+        return baseCategory1Mapper.findCategoryViewBySkuId(skuId);
     }
 }
 

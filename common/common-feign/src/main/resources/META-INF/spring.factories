@@ -1,1 +1,3 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.liu.gmall.feign.product.fallback.BaseCategoryFeignClientFallback
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.liu.gmall.feign.product.fallback.BaseCategoryFeignClientFallback,\
+  com.liu.gmall.feign.item.fallback.SkuInfoDetailFeignClientFallback,\
+  com.liu.gmall.feign.product.fallback.SkuDetailFeignClientFallback

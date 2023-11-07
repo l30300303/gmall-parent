@@ -38,6 +38,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
 
+    @Autowired
+    private SkuInfoMapper skuInfoMapper;
+
     @Override
     public Page<SkuInfo> getSkuInfoByPage(Integer pageNo, Integer pageSize) {
         Page<SkuInfo> page = new Page<>(pageNo, pageSize);
@@ -82,6 +85,11 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
             skuSaleAttrValue.setSpuId(skuInfoDto.getSpuId());
         });
         skuSaleAttrValueService.saveBatch(skuSaleAttrValueList);
+    }
+
+    @Override
+    public SkuInfo findSkuInfoAndImageBySkuId(Long skuId) {
+        return skuInfoMapper.findSkuInfoAndImageBySkuId(skuId);
     }
 }
 

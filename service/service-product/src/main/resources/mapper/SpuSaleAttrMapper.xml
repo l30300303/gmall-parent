@@ -44,4 +44,15 @@
         on ssa.spu_id = ssav.spu_id and ssa.base_sale_attr_id = ssav.base_sale_attr_id
         where ssa.spu_id = #{spuId}
     </select>
+    <select id="findSpuSaleAttrAndSaleAttrValue" resultMap="BaseResultMap">
+        select ssa.*,
+               ssav.id sId,
+               ssav.sale_attr_value_name
+        from spu_sale_attr ssa
+        LEFT JOIN spu_sale_attr_value ssav
+        on ssav.spu_id = ssa.spu_id
+        and ssav.base_sale_attr_id = ssa.base_sale_attr_id
+        where ssa.spu_id =
+        (SELECT si.spu_id FROM sku_info si WHERE si.id = #{skuId})
+    </select>
 </mapper>
