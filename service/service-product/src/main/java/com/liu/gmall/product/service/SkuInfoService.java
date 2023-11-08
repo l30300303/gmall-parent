@@ -5,6 +5,8 @@ import com.liu.gmall.product.dto.SkuInfoDto;
 import com.liu.gmall.product.entity.SkuInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
 * @author L3030
 * @description 针对表【sku_info(库存单元表)】的数据库操作Service
@@ -21,4 +23,6 @@ public interface SkuInfoService extends IService<SkuInfo> {
     void saveSkuInfo(SkuInfoDto skuInfoDto);
 
     SkuInfo findSkuInfoAndImageBySkuId(Long skuId);
+
+    List<Long> findAllSkuIds();
 }

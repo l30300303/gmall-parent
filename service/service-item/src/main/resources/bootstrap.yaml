@@ -7,3 +7,4 @@ spring:
       config:
         shared-configs:
           - common.yml
+          - endpoint.yml

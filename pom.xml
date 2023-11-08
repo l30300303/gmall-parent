@@ -13,6 +13,7 @@
         <module>common</module>
         <module>model</module>
         <module>service</module>
+        <module>admin</module>
     </modules>
 
     <!--定义jar包的版本号-->

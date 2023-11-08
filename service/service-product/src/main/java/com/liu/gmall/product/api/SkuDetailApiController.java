@@ -64,4 +64,10 @@ public class SkuDetailApiController {
         List<AttrValueConcatVo> attrValueConcatVoList = skuSaleAttrValueService.findAttrValueConcatBySkuId(skuId);
         return Result.ok(attrValueConcatVoList);
     }
+
+    @GetMapping("/findAllSkuIds")
+    public Result<List<Long>> findAllSkuIds(){
+        List<Long> ids = skuInfoService.findAllSkuIds();
+        return Result.ok(ids);
+    }
 }

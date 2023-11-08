@@ -10,10 +10,11 @@ package com.liu.gmall.product.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class CategoryVo {
+public class CategoryVo implements Serializable {
 
     private Long categoryId ;           // 分类的id
     private String categoryName ;       // 分类的名称

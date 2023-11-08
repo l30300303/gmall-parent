@@ -38,4 +38,9 @@ public class SkuDetailFeignClientFallback implements SkuDetailFeignClient {
     public Result<List<AttrValueConcatVo>> findAttrValueConcatBySkuId(Long skuId) {
         return Result.ok();
     }
+
+    @Override
+    public Result<List<Long>> findAllSkuIds() {
+        return Result.ok();
+    }
 }

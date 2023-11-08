@@ -36,4 +36,7 @@ public interface SkuDetailFeignClient {
     @GetMapping("/api/inner/product/findAttrValueConcatBySkuId/{skuId}")
     public Result<List<AttrValueConcatVo>> findAttrValueConcatBySkuId(@PathVariable("skuId") Long skuId);
 
+    @GetMapping("/api/inner/product/findAllSkuIds")
+    public Result<List<Long>> findAllSkuIds();
+
 }

@@ -91,6 +91,11 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     public SkuInfo findSkuInfoAndImageBySkuId(Long skuId) {
         return skuInfoMapper.findSkuInfoAndImageBySkuId(skuId);
     }
+
+    @Override
+    public List<Long> findAllSkuIds() {
+        return skuInfoMapper.findAllSkuIds();
+    }
 }
 
 

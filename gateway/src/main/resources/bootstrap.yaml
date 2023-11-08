@@ -5,3 +5,6 @@ spring:
   cloud:
     nacos:
       server-addr: 192.168.126.138:8848
+      config:
+        shared-configs:
+          - endpoint.yml

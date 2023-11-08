@@ -9,9 +9,9 @@ package com.liu.gmall.item.api;
 
 
 import com.liu.gmall.common.result.Result;
-import com.liu.gmall.feign.item.SkuInfoDetailFeignClient;
 import com.liu.gmall.item.service.SkuInfoDetailService;
 import com.liu.gmall.item.vo.SkuInfoDetailVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/inner/item")
+@Slf4j
 public class SkuInfoDetailApiController {
 
     @Autowired

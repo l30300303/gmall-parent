@@ -39,4 +39,7 @@
         on img.sku_id = si.id
         where si.id = 49
     </select>
+    <select id="findAllSkuIds" resultType="java.lang.Long">
+        select id from sku_info
+    </select>
 </mapper>
