@@ -1,0 +1,196 @@
+services:
+  nginx:
+    container_name: nginx
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - "nginx_config:/etc/nginx"
+      - "nginx_html:/usr/share/nginx/html"
+    image: nginx
+    networks:
+      - gmall_net
+  mysql-master:
+    container_name: master
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    networks:
+      - gmall_net
+    volumes:
+      - "master-mysql-log:/var/log/mysql"
+      - "master-mysql-data:/var/lib/mysql"
+      - "master-mysql-config:/etc/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=1234"
+  mysql-slave01:
+    container_name: slave01
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    restart: always
+    networks:
+      - gmall_net
+    volumes:
+      - "slave01-mysql-log:/var/log/mysql"
+      - "slave01-mysql-data:/var/lib/mysql"
+      - "slave01-mysql-config:/etc/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=1234"
+  mysql-slave02:
+    container_name: slave02
+    image: mysql:5.7
+    ports:
+      - "3308:3306"
+    restart: always
+    networks:
+      - gmall_net
+    volumes:
+      - "slave02-mysql-log:/var/log/mysql"
+      - "slave02-mysql-data:/var/lib/mysql"
+      - "slave02-mysql-config:/etc/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=1234"
+  redis:
+    container_name: redis
+    image: redis:6.2.5
+    restart: always
+    networks:
+      - gmall_net
+    ports:
+      - "6379:6379"
+    volumes:
+      - "redis-config:/etc/redis/config"
+      - "redis-data:/data"
+    command: redis-server /etc/redis/config/redis.conf
+  es:
+    container_name: es
+    image: elasticsearch:7.13.4
+    restart: always
+    networks:
+      -  gmall_net
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "bootstrap.memory_lock=true"
+    volumes:
+      - "es-config:/usr/share/elasticsearch/config"
+      - "es-data:/usr/share/elasticsearch/data"
+      - "es-plugins:/usr/share/elasticsearch/plugins"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+  kibana:
+    container_name: kibana
+    image: kibana:7.13.4
+    restart: always
+    networks:
+      - gmall_net
+    ports:
+      - "5601:5601"
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://es:9200"
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:3.8-management
+    restart: always
+    networks:
+      - gmall_net
+    environment:
+      - "RABBITMQ_DEFAULT_USER=admin"
+      - "RABBITMQ_DEFAULT_PASS=admin"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    hostname: gmall-rabbit
+    volumes:
+      - "rabbit-data:/var/lib/rabbitmq"
+      - "rabbit-conf:/etc/rabbitmq"
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin:2
+    restart: always
+    networks:
+      - gmall_net
+    ports:
+      - "9411:9411"
+  sentinel:
+    container_name: sentinel
+    image: sentinel:1.8.2
+    restart: always
+    networks:
+      - gmall_net
+    ports:
+      - "8080:8080"
+  nacos:
+    container_name: nacos
+    image: nacos/nacos-server:2.0.2
+    restart: always
+    networks:
+      - gmall_net
+    ports:
+      - "8848:8848"
+    volumes:
+      - "nacos-conf:/home/nacos/init.d/"
+    environment:
+      - "MODE=standalone"
+      - "SPRING_DATASOURCE_PLATFORM=mysql"
+      - "MYSQL_SERVICE_HOST=mysql-master"
+      - "MYSQL_SERVICE_PORT=3306"
+      - "MYSQL_SERVICE_DB_NAME=nacos"
+      - "MYSQL_SERVICE_USER=root"
+      - "MYSQL_SERVICE_PASSWORD=1234"
+      - "JVM_XMX=512m"
+      - "JVM_XMS=512m"
+  minio:
+    container_name: minio
+    image: minio/minio
+    restart: always
+    networks:
+      - gmall_net
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - "minio-data:/data"
+      - "minio-config:/root/.minio"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      - "MINIO_ACCESS_KEY=admin"
+      - "MINIO_SECRET_KEY=admin123456"
+    command: server --console-address ":9001" /data
+
+volumes:
+  nginx_config: {}
+  nginx_html: {}
+  master-mysql-log: {}
+  master-mysql-data: {}
+  master-mysql-config: {}
+  slave01-mysql-log: {}
+  slave01-mysql-data: {}
+  slave01-mysql-config: {}
+  slave02-mysql-log: {}
+  slave02-mysql-data: {}
+  slave02-mysql-config: {}
+  redis-config: {}
+  redis-data: {}
+  es-config: {}
+  es-data: {}
+  es-plugins: {}
+  rabbit-data: {}
+  rabbit-conf: {}
+  nacos-conf: {}
+  minio-data: {}
+  minio-config: {}
+
+networks:
+  gmall_net:
+    ipam:
+      config:
+        - subnet: "172.19.0.0/16"
