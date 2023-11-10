@@ -3,13 +3,12 @@ package com.liu.gmall.product.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liu.gmall.item.vo.CategoryView;
-import com.liu.gmall.product.vo.CategoryVo;
 import com.liu.gmall.product.entity.BaseCategory1;
-import com.liu.gmall.product.service.BaseCategory1Service;
 import com.liu.gmall.product.mapper.BaseCategory1Mapper;
+import com.liu.gmall.product.service.BaseCategory1Service;
+import com.liu.gmall.product.vo.CategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

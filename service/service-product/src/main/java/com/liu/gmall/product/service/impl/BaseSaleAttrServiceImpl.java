@@ -2,8 +2,8 @@ package com.liu.gmall.product.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liu.gmall.product.entity.BaseSaleAttr;
-import com.liu.gmall.product.service.BaseSaleAttrService;
 import com.liu.gmall.product.mapper.BaseSaleAttrMapper;
+import com.liu.gmall.product.service.BaseSaleAttrService;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,7 +1,7 @@
 package com.liu.gmall.product.mapper;
 
-import com.liu.gmall.product.entity.BaseTrademark;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.liu.gmall.product.entity.BaseTrademark;
 
 /**
 * @author L3030

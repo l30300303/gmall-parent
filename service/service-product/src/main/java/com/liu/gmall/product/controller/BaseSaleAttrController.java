@@ -9,7 +9,6 @@ package com.liu.gmall.product.controller;
 
 
 import com.liu.gmall.common.result.Result;
-import com.liu.gmall.product.entity.BaseAttrInfo;
 import com.liu.gmall.product.entity.BaseSaleAttr;
 import com.liu.gmall.product.service.BaseSaleAttrService;
 import org.springframework.beans.factory.annotation.Autowired;

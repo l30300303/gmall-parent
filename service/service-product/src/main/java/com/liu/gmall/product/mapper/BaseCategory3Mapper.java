@@ -1,7 +1,7 @@
 package com.liu.gmall.product.mapper;
 
-import com.liu.gmall.product.entity.BaseCategory3;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.liu.gmall.product.entity.BaseCategory3;
 
 /**
 * @author L3030

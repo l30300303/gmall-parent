@@ -14,7 +14,6 @@ import com.liu.gmall.product.entity.BaseTrademark;
 import com.liu.gmall.product.service.BaseTrademarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import zipkin2.Call;
 
 import java.util.List;
 

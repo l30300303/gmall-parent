@@ -10,11 +10,9 @@ package com.liu.gmall.product.controller;
 
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.product.entity.BaseAttrInfo;
-import com.liu.gmall.product.entity.BaseAttrValue;
 import com.liu.gmall.product.service.BaseAttrInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import zipkin2.Call;
 
 import java.util.List;
 

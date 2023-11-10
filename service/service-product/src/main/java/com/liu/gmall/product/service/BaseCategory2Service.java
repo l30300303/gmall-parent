@@ -1,7 +1,7 @@
 package com.liu.gmall.product.service;
 
-import com.liu.gmall.product.entity.BaseCategory2;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.liu.gmall.product.entity.BaseCategory2;
 
 import java.util.List;
 

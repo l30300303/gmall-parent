@@ -1,7 +1,7 @@
 package com.liu.gmall.product.service;
 
-import com.liu.gmall.product.entity.SpuSaleAttrValue;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.liu.gmall.product.entity.SpuSaleAttrValue;
 
 /**
 * @author L3030
