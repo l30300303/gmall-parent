@@ -8,17 +8,21 @@ import com.liu.gmall.product.entity.SkuAttrValue;
 import com.liu.gmall.product.entity.SkuImage;
 import com.liu.gmall.product.entity.SkuInfo;
 import com.liu.gmall.product.entity.SkuSaleAttrValue;
+import com.liu.gmall.product.mapper.SkuInfoMapper;
 import com.liu.gmall.product.service.SkuAttrValueService;
 import com.liu.gmall.product.service.SkuImageService;
 import com.liu.gmall.product.service.SkuInfoService;
-import com.liu.gmall.product.mapper.SkuInfoMapper;
 import com.liu.gmall.product.service.SkuSaleAttrValueService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author L3030
@@ -41,6 +45,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Autowired
     private SkuInfoMapper skuInfoMapper;
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     @Override
     public Page<SkuInfo> getSkuInfoByPage(Integer pageNo, Integer pageSize) {
         Page<SkuInfo> page = new Page<>(pageNo, pageSize);
@@ -49,10 +56,19 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
 
     @Override
     public void onSale(Long skuId) {
+        //延时双删
+        //第一次删除
+//        redisTemplate.delete("sku:info:" + skuId);
         LambdaUpdateWrapper<SkuInfo> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.eq(SkuInfo::getId, skuId);
         lambdaUpdateWrapper.set(SkuInfo::getIsSale, 1);
         update(lambdaUpdateWrapper);
+
+        //更新完之后；再次删除
+        /*ScheduledExecutorService executorService = Executors.newScheduledThreadPool(5);
+        executorService.schedule(() -> {
+            redisTemplate.delete("sku:info:" + skuId);
+        }, 5, TimeUnit.SECONDS);*/
     }
 
     @Override

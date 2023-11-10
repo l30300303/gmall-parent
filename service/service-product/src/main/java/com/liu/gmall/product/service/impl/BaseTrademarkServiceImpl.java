@@ -8,19 +8,15 @@ import com.liu.gmall.common.result.ResultCodeEnum;
 import com.liu.gmall.product.entity.BaseTrademark;
 import com.liu.gmall.product.entity.SkuInfo;
 import com.liu.gmall.product.entity.SpuInfo;
+import com.liu.gmall.product.mapper.BaseTrademarkMapper;
 import com.liu.gmall.product.mapper.SkuInfoMapper;
 import com.liu.gmall.product.mapper.SpuInfoMapper;
 import com.liu.gmall.product.service.BaseTrademarkService;
-import com.liu.gmall.product.mapper.BaseTrademarkMapper;
-import com.liu.gmall.product.service.SkuInfoService;
-import com.liu.gmall.product.service.SpuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author L3030

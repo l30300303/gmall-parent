@@ -1,8 +1,8 @@
 package com.liu.gmall.product.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.liu.gmall.product.entity.BaseTrademark;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.liu.gmall.product.entity.BaseTrademark;
 
 /**
 * @author L3030

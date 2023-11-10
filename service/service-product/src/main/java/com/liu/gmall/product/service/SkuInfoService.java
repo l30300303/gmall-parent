@@ -1,9 +1,9 @@
 package com.liu.gmall.product.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.liu.gmall.product.dto.SkuInfoDto;
 import com.liu.gmall.product.entity.SkuInfo;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 

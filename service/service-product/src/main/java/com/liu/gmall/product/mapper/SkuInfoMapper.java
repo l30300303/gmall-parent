@@ -1,7 +1,7 @@
 package com.liu.gmall.product.mapper;
 
-import com.liu.gmall.product.entity.SkuInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.liu.gmall.product.entity.SkuInfo;
 
 import java.util.List;
 

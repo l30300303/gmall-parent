@@ -1,11 +1,9 @@
 package com.liu.gmall.product.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.liu.gmall.product.dto.SpuInfoDto;
 import com.liu.gmall.product.entity.SpuInfo;
-import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
 
 /**
 * @author L3030

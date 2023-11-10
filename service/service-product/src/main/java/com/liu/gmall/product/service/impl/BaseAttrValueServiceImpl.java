@@ -3,8 +3,8 @@ package com.liu.gmall.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liu.gmall.product.entity.BaseAttrValue;
-import com.liu.gmall.product.service.BaseAttrValueService;
 import com.liu.gmall.product.mapper.BaseAttrValueMapper;
+import com.liu.gmall.product.service.BaseAttrValueService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

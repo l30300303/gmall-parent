@@ -1,11 +1,8 @@
 package com.liu.gmall.product.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liu.gmall.product.entity.SpuSaleAttr;
-import com.liu.gmall.product.entity.SpuSaleAttrValue;
 import com.liu.gmall.product.mapper.SpuSaleAttrMapper;
-import com.liu.gmall.product.mapper.SpuSaleAttrValueMapper;
 import com.liu.gmall.product.service.SpuSaleAttrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

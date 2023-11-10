@@ -14,6 +14,7 @@
         <module>model</module>
         <module>service</module>
         <module>admin</module>
+        <module>canal-sync</module>
     </modules>
 
     <!--定义jar包的版本号-->
