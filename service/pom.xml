@@ -83,10 +83,11 @@
         </dependency>
 
         <!--链路追踪-->
-        <dependency>
+        <!--   和自定义ThreadPoolExecutor冲突了，暂时先注释掉     -->
+        <!--<dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>de.codecentric</groupId>

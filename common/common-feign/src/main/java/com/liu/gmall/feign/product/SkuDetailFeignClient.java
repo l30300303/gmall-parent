@@ -11,6 +11,7 @@ package com.liu.gmall.feign.product;
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.feign.product.fallback.SkuDetailFeignClientFallback;
 import com.liu.gmall.item.vo.CategoryView;
+import com.liu.gmall.item.vo.SkuInfoDetailVo;
 import com.liu.gmall.product.entity.SkuInfo;
 import com.liu.gmall.product.entity.SpuSaleAttr;
 import com.liu.gmall.product.vo.AttrValueConcatVo;
@@ -38,5 +39,9 @@ public interface SkuDetailFeignClient {
 
     @GetMapping("/api/inner/product/findAllSkuIds")
     public Result<List<Long>> findAllSkuIds();
+
+
+    @GetMapping("/api/inner/product/findSkuInfoDetailVo/{skuId}")
+    public Result<SkuInfoDetailVo> findSkuInfoDetailVo(@PathVariable("skuId") Long skuId);
 
 }

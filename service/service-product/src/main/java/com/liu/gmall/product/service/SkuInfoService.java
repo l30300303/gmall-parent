@@ -2,6 +2,7 @@ package com.liu.gmall.product.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.liu.gmall.item.vo.SkuInfoDetailVo;
 import com.liu.gmall.product.dto.SkuInfoDto;
 import com.liu.gmall.product.entity.SkuInfo;
 
@@ -25,4 +26,6 @@ public interface SkuInfoService extends IService<SkuInfo> {
     SkuInfo findSkuInfoAndImageBySkuId(Long skuId);
 
     List<Long> findAllSkuIds();
+
+    SkuInfoDetailVo findSkuInfoDetailVo(Long skuId);
 }

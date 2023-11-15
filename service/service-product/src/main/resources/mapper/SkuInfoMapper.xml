@@ -37,7 +37,7 @@
         from sku_info si
         LEFT JOIN sku_image img
         on img.sku_id = si.id
-        where si.id = 49
+        where si.id = #{skuId}
     </select>
     <select id="findAllSkuIds" resultType="java.lang.Long">
         select id from sku_info

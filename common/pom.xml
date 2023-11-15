@@ -17,6 +17,7 @@
         <module>common-util</module>
         <module>common-service</module>
         <module>common-feign</module>
+        <module>common-cache</module>
     </modules>
 
     <properties>
@@ -69,6 +70,18 @@
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>7.1.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
 
     </dependencies>

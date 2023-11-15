@@ -1,28 +1,34 @@
 package com.liu.gmall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.liu.gmall.item.vo.CategoryView;
+import com.liu.gmall.item.vo.SkuInfoDetailVo;
 import com.liu.gmall.product.dto.SkuInfoDto;
-import com.liu.gmall.product.entity.SkuAttrValue;
-import com.liu.gmall.product.entity.SkuImage;
-import com.liu.gmall.product.entity.SkuInfo;
-import com.liu.gmall.product.entity.SkuSaleAttrValue;
+import com.liu.gmall.product.entity.*;
 import com.liu.gmall.product.mapper.SkuInfoMapper;
-import com.liu.gmall.product.service.SkuAttrValueService;
-import com.liu.gmall.product.service.SkuImageService;
-import com.liu.gmall.product.service.SkuInfoService;
-import com.liu.gmall.product.service.SkuSaleAttrValueService;
+import com.liu.gmall.product.mapper.SkuSaleAttrValueMapper;
+import com.liu.gmall.product.mapper.SpuSaleAttrMapper;
+import com.liu.gmall.product.service.*;
+import com.liu.gmall.product.vo.AttrValueConcatVo;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RBloomFilter;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 /**
  * @author L3030
@@ -30,6 +36,7 @@ import java.util.concurrent.TimeUnit;
  * @createDate 2023-11-01 16:49:48
  */
 @Service
+@Slf4j
 public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         implements SkuInfoService {
 
@@ -47,6 +54,22 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private RedissonClient redissonClient;
+
+    @Autowired
+    private BaseCategory1Service baseCategory1Service;
+
+    @Autowired
+    private SpuSaleAttrMapper spuSaleAttrMapper;
+
+    @Autowired
+    private SkuSaleAttrValueMapper skuSaleAttrValueMapper;
+
+
+    @Autowired
+    private ThreadPoolExecutor threadPoolExecutor;
 
     @Override
     public Page<SkuInfo> getSkuInfoByPage(Integer pageNo, Integer pageSize) {
@@ -100,6 +123,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
             skuSaleAttrValue.setSkuId(skuInfo.getId());
             skuSaleAttrValue.setSpuId(skuInfoDto.getSpuId());
         });
+        RBloomFilter<Object> bloomFilter = redissonClient.getBloomFilter("skuIds-bloom-filter");
+        bloomFilter.add(skuInfo.getId());
         skuSaleAttrValueService.saveBatch(skuSaleAttrValueList);
     }
 
@@ -111,6 +136,80 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Override
     public List<Long> findAllSkuIds() {
         return skuInfoMapper.findAllSkuIds();
+    }
+
+    @Override
+    public SkuInfoDetailVo findSkuInfoDetailVo(Long skuId) {
+        SkuInfoDetailVo skuInfoDetailVo = new SkuInfoDetailVo();
+        SkuInfo skuInfo = findSkuInfoAndImageBySkuId(skuId);
+        if (skuInfo == null) {
+            return skuInfoDetailVo;
+        }
+        skuInfoDetailVo.setSkuInfo(skuInfo);
+        skuInfoDetailVo.setPrice(skuInfo.getPrice());
+
+        CompletableFuture<Void> cf1 = CompletableFuture.runAsync(() -> {
+            CategoryView categoryView = baseCategory1Service.findCategoryViewBySkuId(skuId);
+            skuInfoDetailVo.setCategoryView(categoryView);
+        }, threadPoolExecutor);
+
+        CompletableFuture<Void> cf2 = CompletableFuture.runAsync(() -> {
+            List<SpuSaleAttr> saleAttrValue = spuSaleAttrMapper.findSpuSaleAttrAndSaleAttrValue(skuId);
+            skuInfoDetailVo.setSpuSaleAttrList(saleAttrValue);
+        }, threadPoolExecutor);
+
+        CompletableFuture<Void> cf3 = CompletableFuture.runAsync(() -> {
+            List<AttrValueConcatVo> valueConcatVos = skuSaleAttrValueMapper.findAttrValueConcatBySkuId(skuId);
+            Map<String, Long> collect = valueConcatVos.stream().collect(Collectors.toMap(valueConcatVo -> valueConcatVo.getAttrValueConcat(), valueConcatVo -> valueConcatVo.getSkuId()));
+            skuInfoDetailVo.setValuesSkuJson(JSON.toJSONString(collect));
+        }, threadPoolExecutor);
+        CompletableFuture.allOf(cf1, cf2, cf3).join();
+        return skuInfoDetailVo;
+    }
+
+    private SkuInfoDetailVo getSkuInfoDetailVoByThreadPool(Long skuId) {
+        SkuInfoDetailVo skuInfoDetailVo = new SkuInfoDetailVo();
+        CountDownLatch countDownLatch = new CountDownLatch(4);
+        threadPoolExecutor.submit(() -> {
+            CategoryView categoryView = baseCategory1Service.findCategoryViewBySkuId(skuId);
+            skuInfoDetailVo.setCategoryView(categoryView);
+            countDownLatch.countDown();
+        });
+        threadPoolExecutor.submit(() -> {
+            SkuInfo skuInfo = findSkuInfoAndImageBySkuId(skuId);
+            skuInfoDetailVo.setSkuInfo(skuInfo);
+            skuInfoDetailVo.setPrice(skuInfo.getPrice());
+            countDownLatch.countDown();
+        });
+        threadPoolExecutor.submit(() -> {
+            List<SpuSaleAttr> saleAttrValue = spuSaleAttrMapper.findSpuSaleAttrAndSaleAttrValue(skuId);
+            skuInfoDetailVo.setSpuSaleAttrList(saleAttrValue);
+            countDownLatch.countDown();
+        });
+
+        threadPoolExecutor.submit(() -> {
+            List<AttrValueConcatVo> valueConcatVos = skuSaleAttrValueMapper.findAttrValueConcatBySkuId(skuId);
+            Map<String, Long> collect = valueConcatVos.stream().collect(Collectors.toMap(valueConcatVo -> valueConcatVo.getAttrValueConcat(), valueConcatVo -> valueConcatVo.getSkuId()));
+            skuInfoDetailVo.setValuesSkuJson(JSON.toJSONString(collect));
+            countDownLatch.countDown();
+        });
+        try {
+            countDownLatch.await();
+            return skuInfoDetailVo;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostConstruct
+    public void initBloomFilter() {
+        RBloomFilter<Object> bloomFilter = redissonClient.getBloomFilter("skuIds-bloom-filter");
+        bloomFilter.tryInit(100000, 0.0001);
+        List<Long> skuIds = findAllSkuIds();
+        skuIds.forEach(skuId -> {
+            bloomFilter.add(skuId);
+        });
+        log.info("布隆过滤器初始化成功！！！");
     }
 }
 

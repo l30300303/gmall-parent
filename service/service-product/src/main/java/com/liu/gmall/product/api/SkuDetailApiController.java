@@ -10,6 +10,7 @@ package com.liu.gmall.product.api;
 
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.item.vo.CategoryView;
+import com.liu.gmall.item.vo.SkuInfoDetailVo;
 import com.liu.gmall.product.entity.SkuInfo;
 import com.liu.gmall.product.entity.SpuSaleAttr;
 import com.liu.gmall.product.service.BaseCategory1Service;
@@ -17,6 +18,7 @@ import com.liu.gmall.product.service.SkuInfoService;
 import com.liu.gmall.product.service.SkuSaleAttrValueService;
 import com.liu.gmall.product.service.SpuSaleAttrService;
 import com.liu.gmall.product.vo.AttrValueConcatVo;
+import org.simpleframework.xml.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,8 +68,14 @@ public class SkuDetailApiController {
     }
 
     @GetMapping("/findAllSkuIds")
-    public Result<List<Long>> findAllSkuIds(){
+    public Result<List<Long>> findAllSkuIds() {
         List<Long> ids = skuInfoService.findAllSkuIds();
         return Result.ok(ids);
+    }
+
+    @GetMapping("/findSkuInfoDetailVo/{skuId}")
+    public Result<SkuInfoDetailVo> findSkuInfoDetailVo(@PathVariable("skuId") Long skuId) {
+        SkuInfoDetailVo skuInfoDetailVo = skuInfoService.findSkuInfoDetailVo(skuId);
+        return Result.ok(skuInfoDetailVo);
     }
 }
