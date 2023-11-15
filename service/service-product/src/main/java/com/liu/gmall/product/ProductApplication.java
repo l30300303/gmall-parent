@@ -13,9 +13,6 @@ import com.liu.gmall.common.anno.EnableThreadPoolExecutor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import java.util.concurrent.ThreadPoolExecutor;
 
 @SpringBootApplication
 @MapperScan("com.liu.gmall.product.mapper")
