@@ -11,6 +11,7 @@ package com.liu.gmall.feign.product.fallback;
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.feign.product.SkuDetailFeignClient;
 import com.liu.gmall.item.vo.CategoryView;
+import com.liu.gmall.item.vo.SkuInfoDetailVo;
 import com.liu.gmall.product.entity.SkuInfo;
 import com.liu.gmall.product.entity.SpuSaleAttr;
 import com.liu.gmall.product.vo.AttrValueConcatVo;
@@ -41,6 +42,11 @@ public class SkuDetailFeignClientFallback implements SkuDetailFeignClient {
 
     @Override
     public Result<List<Long>> findAllSkuIds() {
+        return Result.ok();
+    }
+
+    @Override
+    public Result<SkuInfoDetailVo> findSkuInfoDetailVo(Long skuId) {
         return Result.ok();
     }
 }

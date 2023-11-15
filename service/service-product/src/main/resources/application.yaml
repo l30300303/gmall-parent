@@ -29,3 +29,8 @@ gmall:
     accessKey: liubaiqi
     secretKey: 12345678
     bucket: gmall
+  threadpool:
+    corePoolSize: 8
+    maximumPoolSize: 16
+    keepAliveTime: 30
+    workQueueSize: 10

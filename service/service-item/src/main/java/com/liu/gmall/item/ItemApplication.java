@@ -8,6 +8,8 @@ package com.liu.gmall.item;
  */
 
 
+import com.liu.gmall.common.anno.EnableCacheAspect;
+import com.liu.gmall.common.anno.EnableThreadPoolExecutor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -17,6 +19,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients(basePackages = {
         "com.liu.gmall.feign.product"
 })
+@EnableCacheAspect
 public class ItemApplication {
 
     public static void main(String[] args) {
