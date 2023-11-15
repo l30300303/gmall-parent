@@ -15,11 +15,12 @@
         <module>service-product</module>
         <module>web-all</module>
         <module>service-item</module>
+        <module>service-search</module>
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -84,10 +85,10 @@
 
         <!--链路追踪-->
         <!--   和自定义ThreadPoolExecutor冲突了，暂时先注释掉     -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>de.codecentric</groupId>
