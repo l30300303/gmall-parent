@@ -3,4 +3,4 @@
 docker run -d -p  9100:9000 --name=portainer  --restart=always  -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer
 
 #logstash : 数据收集引擎,集成ELK管理日志
-docker run -d -p 5044:5044 -p 9600:9600 --name logstash --restart=always --network=gmall_gmall_net -v logstash-config:/usr/share/logstash logstash:7.13.4
+docker run -d -p 5044:5044 -p 9600:9600 --name logstash --restart=always --network=compose_gmall_net -v logstash-config:/usr/share/logstash logstash:7.13.4
