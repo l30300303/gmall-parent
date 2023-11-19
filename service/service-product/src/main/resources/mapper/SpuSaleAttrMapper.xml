@@ -26,7 +26,8 @@
             <result property="spuId" column="ssId"/>
             <result property="baseSaleAttrId" column="base_sale_attr_id"/>
             <result property="saleAttrValueName" column="sale_attr_value_name"/>
-            <result property="saleAttrName" column="ssavName"/>
+            <result property="saleAttrName" column="sale_attr_name"/>
+            <result property="isChecked" column="is_checked"/>
         </collection>
     </resultMap>
     <select id="spuSaleAttrList" resultMap="spuSaleAttrListMap">
@@ -38,21 +39,22 @@
                ssav.spu_id            ssId,
                ssav.base_sale_attr_id sbId,
                ssav.sale_attr_value_name,
-               ssav.sale_attr_name ssavName
+               ssav.sale_attr_name
         from spu_sale_attr ssa
         left join spu_sale_attr_value ssav
         on ssa.spu_id = ssav.spu_id and ssa.base_sale_attr_id = ssav.base_sale_attr_id
         where ssa.spu_id = #{spuId}
     </select>
-    <select id="findSpuSaleAttrAndSaleAttrValue" resultMap="BaseResultMap">
-        select ssa.*,
-               ssav.id sId,
-               ssav.sale_attr_value_name
-        from spu_sale_attr ssa
-        LEFT JOIN spu_sale_attr_value ssav
-        on ssav.spu_id = ssa.spu_id
-        and ssav.base_sale_attr_id = ssa.base_sale_attr_id
-        where ssa.spu_id =
-        (SELECT si.spu_id FROM sku_info si WHERE si.id = #{skuId})
+    <select id="findSpuSaleAttrAndSaleAttrValue" resultMap="spuSaleAttrListMap">
+        select temp.* , IF(skussav.id is null,0,1) is_checked
+        from
+            ( select ssa.* , ssav.id sId , ssav.sale_attr_value_name
+              from spu_sale_attr ssa
+                  LEFT JOIN spu_sale_attr_value ssav
+                      on ssav.spu_id = ssa.spu_id and ssav.base_sale_attr_id = ssa.base_sale_attr_id
+              where ssa.spu_id =
+                    (select si.spu_id from sku_info si where si.id = #{skuId} )) temp
+                LEFT JOIN sku_sale_attr_value skussav on skussav.sale_attr_value_id = temp.sId and skussav.sku_id = #{skuId}
+        ORDER BY temp.base_sale_attr_id , temp.sId
     </select>
 </mapper>

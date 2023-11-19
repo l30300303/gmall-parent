@@ -1,5 +1,6 @@
 package com.liu.gmall.search.service.impl;
 
+import cn.hutool.core.util.PageUtil;
 import com.google.common.collect.Lists;
 import com.liu.gmall.search.entity.SearchAttr;
 import com.liu.gmall.search.vo.SearchOrderMapVo;
@@ -193,8 +194,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         searchResponseVo.setPageNo(searchParamDto.getPageNo());
         long totalHits = searchHits.getTotalHits();
-        double ceil = Math.ceil((double) totalHits / searchHits.getTotalHits());
-        int totalPage = (int) ceil;
+        int totalPage = PageUtil.totalPage((int) totalHits,searchParamDto.getPageSize());
         searchResponseVo.setTotalPages(totalPage);
 
         return searchResponseVo;

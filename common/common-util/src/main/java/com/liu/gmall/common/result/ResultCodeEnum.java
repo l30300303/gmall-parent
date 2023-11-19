@@ -31,6 +31,9 @@ public enum ResultCodeEnum {
     ERROR_SPU_REF(222, "被SPU所关联, 不能删除") ,
     ERROR_SKU_REF(223, "被SKU所关联, 不能删除") ,
     SYSTEM_ERROR(224, "网络波动，请稍后重试！"),
+    LOGIN_ERROR(225, "用户名或密码错误！"),
+
+
     ;
 
     private Integer code;
