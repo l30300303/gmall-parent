@@ -1,6 +1,10 @@
 server:
   port: 80
 spring:
+  redis:
+    host: 192.168.126.138
+    port: 6379
+    password: 1234
   cloud:
     gateway:
       globalcors:
@@ -14,8 +18,23 @@ spring:
           uri: lb://service-product
           predicates:
             - Path=/admin/product/**
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+            - Path=/api/user/**
         - id: web-all
           uri: lb://web-all
           predicates:
             - Host=**.gmall.com,gmall.com
 
+#定义路径访问规则
+gmall:
+  path:
+    noauthurls:
+      - /css/**
+      - /img/**
+      - /js/**
+    authurls:
+      - /order/**
+      - /payment/**
+    loginpage: http://passport.gmall.com/login.html

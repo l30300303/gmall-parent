@@ -41,5 +41,8 @@ public class SpuSaleAttrValue implements Serializable {
     private String saleAttrName;
 
     @TableField(exist = false)
+    private Integer isChecked ;         // 是否选中，如果是这就是1，如果否值就是0
+
+    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

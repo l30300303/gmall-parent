@@ -16,7 +16,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableFeignClients(basePackages = {
         "com.liu.gmall.feign.product",
-        "com.liu.gmall.feign.item"
+        "com.liu.gmall.feign.item",
+        "com.liu.gmall.feign.search"
 })
 public class WebApplication {
 

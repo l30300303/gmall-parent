@@ -9,6 +9,7 @@ spring:
     include: shardingsphere
 
 
+
 #  datasource:
 #    driver-class-name: com.mysql.jdbc.Driver
 #    url: jdbc:mysql://192.168.126.138:3306/gmall_product?useSSL=false&characterEncoding=UTF8
@@ -21,7 +22,6 @@ mybatis-plus:
   type-aliases-package: com.liu.gmall.product.entity;
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
 
 gmall:
   minio:

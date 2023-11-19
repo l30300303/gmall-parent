@@ -4,15 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.liu.gmall.feign.search.GoodsFeignClient;
 import com.liu.gmall.item.vo.CategoryView;
 import com.liu.gmall.item.vo.SkuInfoDetailVo;
 import com.liu.gmall.product.dto.SkuInfoDto;
 import com.liu.gmall.product.entity.*;
-import com.liu.gmall.product.mapper.SkuInfoMapper;
-import com.liu.gmall.product.mapper.SkuSaleAttrValueMapper;
-import com.liu.gmall.product.mapper.SpuSaleAttrMapper;
+import com.liu.gmall.product.mapper.*;
 import com.liu.gmall.product.service.*;
 import com.liu.gmall.product.vo.AttrValueConcatVo;
+import com.liu.gmall.search.entity.Goods;
+import com.liu.gmall.search.entity.SearchAttr;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RedissonClient;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -71,6 +73,15 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
 
+    @Autowired
+    private GoodsFeignClient goodsFeignClient;
+
+    @Autowired
+    private BaseTrademarkMapper baseTrademarkMapper;
+
+    @Autowired
+    private SkuAttrValueMapper skuAttrValueMapper;
+
     @Override
     public Page<SkuInfo> getSkuInfoByPage(Integer pageNo, Integer pageSize) {
         Page<SkuInfo> page = new Page<>(pageNo, pageSize);
@@ -92,6 +103,47 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         executorService.schedule(() -> {
             redisTemplate.delete("sku:info:" + skuId);
         }, 5, TimeUnit.SECONDS);*/
+
+        //请求search远程接口，保存SKu的数据到ES中
+        Goods goods = buildGoods(skuId);
+        goodsFeignClient.saveGoods(goods);
+    }
+
+    private Goods buildGoods(Long skuId) {
+        Goods goods = new Goods();
+        goods.setId(skuId);
+        CompletableFuture<SkuInfo> completableFuture = CompletableFuture.supplyAsync(() -> {
+            SkuInfo skuInfo = getById(skuId);
+            goods.setDefaultImg(skuInfo.getSkuDefaultImg());
+            goods.setTitle(skuInfo.getSkuName());
+            goods.setPrice(skuInfo.getPrice());
+            goods.setCreateTime(new Date());
+            return skuInfo;
+        }, threadPoolExecutor);
+        CompletableFuture<Void> cf1 = completableFuture.thenAcceptAsync((skuInfo) -> {
+            BaseTrademark baseTrademark = baseTrademarkMapper.selectById(skuInfo.getTmId());
+            goods.setTmId(baseTrademark.getId());
+            goods.setTmName(baseTrademark.getTmName());
+            goods.setTmLogoUrl(baseTrademark.getLogoUrl());
+        }, threadPoolExecutor);
+
+        CompletableFuture<Void> cf2 = CompletableFuture.runAsync(() -> {
+            CategoryView categoryView = baseCategory1Service.findCategoryViewBySkuId(skuId);
+            goods.setCategory1Id(categoryView.getCategory1Id());
+            goods.setCategory1Name(categoryView.getCategory1Name());
+            goods.setCategory2Id(categoryView.getCategory2Id());
+            goods.setCategory2Name(categoryView.getCategory2Name());
+            goods.setCategory3Id(categoryView.getCategory3Id());
+            goods.setCategory3Name(categoryView.getCategory3Name());
+            //热度分，综合排序使用
+            goods.setHotScore(0L);
+        }, threadPoolExecutor);
+        CompletableFuture<Void> cf3 = CompletableFuture.runAsync(() -> {
+            List<SearchAttr> searchAttrList = skuAttrValueMapper.findSkuAttrBySkuId(skuId);
+            goods.setAttrs(searchAttrList);
+        }, threadPoolExecutor);
+        CompletableFuture.allOf(completableFuture, cf1, cf2, cf3).join();
+        return goods;
     }
 
     @Override
@@ -100,6 +152,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         lambdaUpdateWrapper.eq(SkuInfo::getId, skuId);
         lambdaUpdateWrapper.set(SkuInfo::getIsSale, 0);
         update(lambdaUpdateWrapper);
+         goodsFeignClient.deleteById(skuId);
     }
 
     @Override

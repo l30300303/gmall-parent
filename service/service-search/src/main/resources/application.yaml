@@ -1,0 +1,12 @@
+server:
+  port: 10300
+spring:
+  elasticsearch:
+    rest:
+      uris: http://192.168.126.138:9200
+
+logging:
+  level:
+    tracer: trace
+    com.liu.gmall.search.service: trace
+    org.springframework.data.elasticsearch: trace

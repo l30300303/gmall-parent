@@ -1,0 +1,20 @@
+server:
+  port: 10400
+spring:
+  redis:
+    host: 192.168.126.138
+    port: 6379
+    password: 1234
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.126.138:3306/gmall_user?useSSL=false&characterEncoding=UTF8
+    username: root
+    password: 1234
+    type: com.zaxxer.hikari.HikariDataSource
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.liu.gmall.user.entity;
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
