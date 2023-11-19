@@ -78,4 +78,10 @@ public class SkuDetailApiController {
         SkuInfoDetailVo skuInfoDetailVo = skuInfoService.findSkuInfoDetailVo(skuId);
         return Result.ok(skuInfoDetailVo);
     }
+
+    @GetMapping("/getSkuInfoById/{skuId}")
+    public Result<SkuInfo> getSkuInfoById(@PathVariable("skuId") Long skuId) {
+        SkuInfo skuInfo = skuInfoService.getSkuInfoById(skuId);
+        return Result.ok(skuInfo);
+    }
 }

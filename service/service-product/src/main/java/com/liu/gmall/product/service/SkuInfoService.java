@@ -28,4 +28,6 @@ public interface SkuInfoService extends IService<SkuInfo> {
     List<Long> findAllSkuIds();
 
     SkuInfoDetailVo findSkuInfoDetailVo(Long skuId);
+
+    SkuInfo getSkuInfoById(Long skuId);
 }

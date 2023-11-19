@@ -49,4 +49,9 @@ public class SkuDetailFeignClientFallback implements SkuDetailFeignClient {
     public Result<SkuInfoDetailVo> findSkuInfoDetailVo(Long skuId) {
         return Result.ok();
     }
+
+    @Override
+    public Result<SkuInfo> getSkuInfoById(Long skuId) {
+        return Result.ok();
+    }
 }

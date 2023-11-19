@@ -86,7 +86,7 @@ public class UserAuthFilter implements GlobalFilter, Ordered {
         String token = getToken(exchange);
         //未登录直接放行，登录了的需要透传用户id
         if (StringUtils.isEmpty(token)) {
-            return chain.filter(exchange);
+            return userTempIdThrough(exchange, chain);
         } else {
             UserInfo userInfo = getUserInfo(token);
             if (userInfo == null) {
@@ -97,10 +97,34 @@ public class UserAuthFilter implements GlobalFilter, Ordered {
         }
     }
 
+    //放行之前透传临时用户id
+    private Mono<Void> userTempIdThrough(ServerWebExchange exchange, GatewayFilterChain chain) {
+        //获取临时用户id
+        String userTempId = getUserTempId(exchange);
+        //透传临时用户id
+        ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate().header("userTempId",userTempId).build();
+        ServerWebExchange serverWebExchange = exchange.mutate().request(serverHttpRequest).response(exchange.getResponse()).build();
+        return chain.filter(serverWebExchange);
+    }
+
+    public String getUserTempId(ServerWebExchange exchange) {
+        ServerHttpRequest httpRequest = exchange.getRequest();
+        HttpCookie cookie = httpRequest.getCookies().getFirst("userTempId");
+        if (cookie != null) {
+            return cookie.getValue();
+        }else {
+            return httpRequest.getHeaders().getFirst("userTempId");
+        }
+    }
+
+    //该方法需要同时透传用户id和临时用户id，用于合并购物车内容
     private Mono<Void> userIdThrough(ServerWebExchange exchange, GatewayFilterChain chain, UserInfo userInfo) {
         ServerHttpRequest httpRequest = exchange.getRequest();
+        //获取临时用户id
+        String userTempId = getUserTempId(exchange);
         ServerHttpRequest serverHttpRequest = httpRequest.mutate()
                 .header("userId", String.valueOf(userInfo.getId()))
+                .header("userTempId", userTempId)
                 .build();
         ServerWebExchange build = exchange.mutate().request(serverHttpRequest).response(exchange.getResponse()).build();
         return chain.filter(build);

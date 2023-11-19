@@ -220,6 +220,11 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         return skuInfoDetailVo;
     }
 
+    @Override
+    public SkuInfo getSkuInfoById(Long skuId) {
+        return getById(skuId);
+    }
+
     private SkuInfoDetailVo getSkuInfoDetailVoByThreadPool(Long skuId) {
         SkuInfoDetailVo skuInfoDetailVo = new SkuInfoDetailVo();
         CountDownLatch countDownLatch = new CountDownLatch(4);

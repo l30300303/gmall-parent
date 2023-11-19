@@ -44,4 +44,7 @@ public interface SkuDetailFeignClient {
     @GetMapping("/api/inner/product/findSkuInfoDetailVo/{skuId}")
     public Result<SkuInfoDetailVo> findSkuInfoDetailVo(@PathVariable("skuId") Long skuId);
 
+    @GetMapping("/api/inner/product/getSkuInfoById/{skuId}")
+    public Result<SkuInfo> getSkuInfoById(@PathVariable("skuId") Long skuId);
+
 }

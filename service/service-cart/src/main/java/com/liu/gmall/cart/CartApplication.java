@@ -1,14 +1,13 @@
-package com.liu.gmall.web;
+package com.liu.gmall.cart;
 /*
- *@title WebApplication
+ *@title CartApplication
  *@description
  *@author L3030
  *@version 1.0
- *@create 2023/11/6 18:08
+ *@create 2023/11/19 19:34
  */
 
 
-import com.liu.gmall.common.anno.EnableFeignClientInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -16,16 +15,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableFeignClients(basePackages = {
-        "com.liu.gmall.feign.product",
-        "com.liu.gmall.feign.item",
-        "com.liu.gmall.feign.search",
-        "com.liu.gmall.feign.cart"
+        "com.liu.gmall.feign.product"
 })
-@EnableFeignClientInterceptor
-public class WebApplication {
-
+public class CartApplication {
     public static void main(String[] args) {
-        SpringApplication.run(WebApplication.class, args);
+        SpringApplication.run(CartApplication.class, args);
     }
-
 }
