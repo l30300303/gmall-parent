@@ -32,8 +32,7 @@ public enum ResultCodeEnum {
     ERROR_SKU_REF(223, "被SKU所关联, 不能删除") ,
     SYSTEM_ERROR(224, "网络波动，请稍后重试！"),
     LOGIN_ERROR(225, "用户名或密码错误！"),
-
-
+    CART_ITEM_COUNT_ERROR(226, "商品数量超过购物车最大限制！"),
     ;
 
     private Integer code;
