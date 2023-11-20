@@ -10,11 +10,12 @@ package com.liu.gmall.feign.cart;
 
 import com.liu.gmall.cart.vo.AddCartSuccessVo;
 import com.liu.gmall.common.result.Result;
+import com.liu.gmall.feign.cart.fallback.CartFeignClientFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(value = "service-cart", fallback = CartFeignClient.class)
+@FeignClient(value = "service-cart", fallback = CartFeignClientFallback.class)
 public interface CartFeignClient {
 
     @GetMapping("/api/inner/cart/addCart")

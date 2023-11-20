@@ -1,0 +1,127 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: master_01,master_01_slave_01,master_01_slave_02,master_02,master_02_slave_01,master_02_slave_02
+      master_01:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://192.168.126.138:3306/gmall_order_01?useSSL=false&characterEncoding=UTF8
+        username: root
+        password: 1234
+        driverClassName: com.mysql.jdbc.Driver
+      master_01_slave_01:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://192.168.126.138:3307/gmall_order_01?useSSL=false&characterEncoding=UTF8
+        username: root
+        password: 1234
+        driverClassName: com.mysql.jdbc.Driver
+      master_01_slave_02:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://192.168.126.138:3308/gmall_order_01?useSSL=false&characterEncoding=UTF8
+        username: root
+        password: 1234
+        driverClassName: com.mysql.jdbc.Driver
+      master_02:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://192.168.126.138:3306/gmall_order_02?useSSL=false&characterEncoding=UTF8
+        username: root
+        password: 1234
+        driverClassName: com.mysql.jdbc.Driver
+      master_02_slave_01:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://192.168.126.138:3307/gmall_order_02?useSSL=false&characterEncoding=UTF8
+        username: root
+        password: 1234
+        driverClassName: com.mysql.jdbc.Driver
+      master_02_slave_02:
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://192.168.126.138:3308/gmall_order_02?useSSL=false&characterEncoding=UTF8
+        username: root
+        password: 1234
+        driverClassName: com.mysql.jdbc.Driver
+    rules:
+      readwrite-splitting:
+        data-sources:
+          rw-order_01:
+            type: Static
+            props:
+              write-data-source-name: master_01
+              read-data-source-names: master_01_slave_01,master_01_slave_02
+            load-balancer-name: order_balance
+          rw-order_02:
+            type: Static
+            props:
+              write-data-source-name: master_02
+              read-data-source-names: master_02_slave_01,master_02_slave_02
+            load-balancer-name: order_balance
+        load-balancers:
+          order_balance:
+            type: ROUND_ROBIN
+      sharding:
+        default-database-strategy:
+          standard:
+            sharding-column: user_id
+            sharding-algorithm-name: database_inline
+        sharding-algorithms:
+          database_inline:
+            type: INLINE
+            props:
+              algorithm-expression: rw_order_0$->{user_id % 2 + 1}
+          order_info_table_sharding:
+            type: INLINE # 行表达式分片算法
+            props:
+              algorithm-expression: order_info_0$->{user_id % 3 + 1}
+          order_detail_table_sharding:
+            type: INLINE # 行表达式分片算法
+            props:
+              algorithm-expression: order_detail_0$->{user_id % 3 + 1}
+          order_status_log_table_sharding:
+            type: INLINE # 行表达式分片算法
+            props:
+              algorithm-expression: order_status_log_0$->{user_id % 3 + 1}
+          payment_info_table_sharding:
+            type: INLINE # 行表达式分片算法
+            props:
+              algorithm-expression: payment_info_0$->{user_id % 3 + 1}
+          # 分表规则
+        tables:
+          order_info:
+            actual-data-nodes: rw_order_0$->{1..2}.order_info_0$->{1..3}
+            table-strategy:
+              standard:
+                sharding-column: user_id
+                sharding-algorithm-name: order_info_table_sharding
+            key-generate-strategy:
+              column: id
+              key-generator-name: key_alg
+          order_detail:
+            actual-data-nodes: rw_order_0$->{1..2}.order_detail_0$->{1..3}
+            table-strategy:
+              standard:
+                sharding-column: user_id
+                sharding-algorithm-name: order_detail_table_sharding
+            key-generate-strategy:
+              column: id
+              key-generator-name: key_alg
+          order_status_log:
+            actual-data-nodes: rw_order_0$->{1..2}.order_status_log_0$->{1..3}
+            table-strategy:
+              standard:
+                sharding-column: user_id
+                sharding-algorithm-name: order_status_log_table_sharding
+            key-generate-strategy:
+              column: id
+              key-generator-name: key_alg
+          payment_info:
+            actual-data-nodes: rw_order_0$->{1..2}.payment_info_0$->{1..3}
+            table-strategy:
+              standard:
+                sharding-column: user_id
+                sharding-algorithm-name: payment_info_table_sharding
+            key-generate-strategy:
+              column: id
+              key-generator-name: key_alg
+        key-generators:
+          key_alg:
+            type: SNOWFLAKE
+    props:
+      sql-show: true

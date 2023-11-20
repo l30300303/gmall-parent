@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public class UserAuthUtils {
 
-
     public static UserAuthInfo getUserAuthInfo() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         UserAuthInfo userAuthInfo = new UserAuthInfo();
@@ -25,7 +24,7 @@ public class UserAuthUtils {
             String userId = httpServletRequest.getHeader("userId");
             String userTempId = httpServletRequest.getHeader("userTempId");
             userAuthInfo.setUserId(userId);
-            userAuthInfo.setUserId(userTempId);
+            userAuthInfo.setUserTempId(userTempId);
         }
         return userAuthInfo;
     }

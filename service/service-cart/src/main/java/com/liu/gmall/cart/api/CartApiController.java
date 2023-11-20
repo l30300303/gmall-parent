@@ -10,9 +10,7 @@ package com.liu.gmall.cart.api;
 
 import com.liu.gmall.cart.service.CartService;
 import com.liu.gmall.cart.vo.AddCartSuccessVo;
-import com.liu.gmall.common.auth.UserAuthInfo;
 import com.liu.gmall.common.result.Result;
-import com.liu.gmall.common.utils.UserAuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

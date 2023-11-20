@@ -17,4 +17,10 @@ public interface CartService {
     AddCartSuccessVo addCart(Long skuId, Integer skuNum);
 
     List<CartItem> cartList();
+
+    void addToCart(Long skuId, Integer skuNum);
+
+    void checkCart(Long skuId, Integer isChecked);
+
+    void deleteCart(Long skuId);
 }
