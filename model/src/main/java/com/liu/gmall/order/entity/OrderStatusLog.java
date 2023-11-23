@@ -36,6 +36,12 @@ public class OrderStatusLog implements Serializable {
      */
     private Date operateTime;
 
+
+    /**
+     * 用户id
+     */
+    private Long userId;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

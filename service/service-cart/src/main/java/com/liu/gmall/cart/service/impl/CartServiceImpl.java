@@ -178,6 +178,28 @@ public class CartServiceImpl implements CartService {
         redisTemplate.opsForHash().delete(redisCartKey, String.valueOf(skuId));
     }
 
+    @Override
+    public void deleteCheckedCart() {
+        String redisCartKey = buildRedisCartKey();
+        List<Object> values = redisTemplate.opsForHash().values(redisCartKey);
+        values.forEach(obj->{
+            CartItem cartItem = JSON.parseObject(obj.toString(), CartItem.class);
+            if (cartItem.getIsChecked() == 1){
+                redisTemplate.opsForHash().delete(redisCartKey,String.valueOf(cartItem.getSkuId()));
+            }
+        });
+    }
+
+    @Override
+    public List<CartItem> findByUserId() {
+        UserAuthInfo userAuthInfo = UserAuthUtils.getUserAuthInfo();
+        String userId = userAuthInfo.getUserId();
+        String cartRedisKey = "cart:info:" + userId ;
+        List<Object> objects = redisTemplate.opsForHash().values(cartRedisKey);
+        return objects.stream().map(obj -> JSON.parseObject(obj.toString(), CartItem.class))
+                .filter(cartItem -> cartItem.getIsChecked() == 1).collect(Collectors.toList());
+    }
+
     private String buildRedisCartKey() {
         UserAuthInfo userAuthInfo = UserAuthUtils.getUserAuthInfo();
         if (!StringUtils.isEmpty(userAuthInfo.getUserId())) {

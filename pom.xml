@@ -15,6 +15,7 @@
         <module>service</module>
         <module>admin</module>
         <module>canal-sync</module>
+        <module>ware-manage</module>
     </modules>
 
     <!--定义jar包的版本号-->

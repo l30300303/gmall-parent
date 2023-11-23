@@ -1,10 +1,15 @@
 package com.liu.gmall.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.liu.gmall.common.auth.UserAuthInfo;
+import com.liu.gmall.common.utils.UserAuthUtils;
 import com.liu.gmall.user.entity.UserAddress;
-import com.liu.gmall.user.service.UserAddressService;
 import com.liu.gmall.user.mapper.UserAddressMapper;
+import com.liu.gmall.user.service.UserAddressService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author L3030
@@ -15,6 +20,13 @@ import org.springframework.stereotype.Service;
 public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserAddress>
     implements UserAddressService{
 
+    @Override
+    public List<UserAddress> findByUserId() {
+        UserAuthInfo userAuthInfo = UserAuthUtils.getUserAuthInfo();
+        LambdaQueryWrapper<UserAddress> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(UserAddress::getUserId,userAuthInfo.getUserId());
+        return list(lambdaQueryWrapper);
+    }
 }
 
 

@@ -3,6 +3,8 @@ package com.liu.gmall.user.service;
 import com.liu.gmall.user.entity.UserAddress;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
 * @author L3030
 * @description 针对表【user_address(用户地址表)】的数据库操作Service
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface UserAddressService extends IService<UserAddress> {
 
+    List<UserAddress> findByUserId();
 }
