@@ -7,7 +7,8 @@ spring:
     password: 1234
   profiles:
     include: shardingsphere
-
+  main:
+    allow-bean-definition-overriding: true
 
 
 mybatis-plus:
@@ -15,3 +16,12 @@ mybatis-plus:
   type-aliases-package: com.liu.gmall.order.entity;
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+feign:
+  sentinel:
+    enabled: true
+gmall:
+  threadpool:
+    corePoolSize: 8
+    maximumPoolSize: 16
+    keepAliveTime: 30
+    workQueueSize: 10

@@ -41,13 +41,13 @@ spring:
     rules:
       readwrite-splitting:
         data-sources:
-          rw-order_01:
+          rw_order_01:
             type: Static
             props:
               write-data-source-name: master_01
               read-data-source-names: master_01_slave_01,master_01_slave_02
             load-balancer-name: order_balance
-          rw-order_02:
+          rw_order_02:
             type: Static
             props:
               write-data-source-name: master_02

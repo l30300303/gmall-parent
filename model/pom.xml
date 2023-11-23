@@ -45,6 +45,12 @@
             <scope>provided </scope>
         </dependency>
 
+        <!-- 需要校验的bean上标注注解 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

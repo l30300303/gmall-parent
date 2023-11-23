@@ -39,4 +39,10 @@ public class CartController {
     public String cartList(){
         return "cart/index";
     }
+
+    @GetMapping(value = "/cart/deleteChecked")
+    public String deleteChecked() {
+        cartFeignClient.deleteCheckedCart() ;
+        return "cart/index" ;
+    }
 }

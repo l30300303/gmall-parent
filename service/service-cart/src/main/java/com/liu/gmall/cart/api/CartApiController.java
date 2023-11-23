@@ -8,14 +8,15 @@ package com.liu.gmall.cart.api;
  */
 
 
+import com.liu.gmall.cart.entity.CartItem;
 import com.liu.gmall.cart.service.CartService;
 import com.liu.gmall.cart.vo.AddCartSuccessVo;
 import com.liu.gmall.common.result.Result;
+import com.liu.gmall.common.result.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/inner/cart")
@@ -28,5 +29,17 @@ public class CartApiController {
     public Result<AddCartSuccessVo> addCart(@RequestParam("skuId") Long skuId, @RequestParam("skuNum") Integer skuNum) {
         AddCartSuccessVo addCartSuccessVo = cartService.addCart(skuId, skuNum);
         return Result.ok(addCartSuccessVo);
+    }
+
+    @DeleteMapping("/deleteCheckedCart")
+    public Result deleteCheckedCart(){
+        cartService.deleteCheckedCart() ;
+        return Result.ok() ;
+    }
+
+    @GetMapping(value = "/findByUserId")
+    public Result<List<CartItem>> findByUserId() {
+        List<CartItem> cartItemList = cartService.findByUserId() ;
+        return Result.ok(cartItemList);
     }
 }

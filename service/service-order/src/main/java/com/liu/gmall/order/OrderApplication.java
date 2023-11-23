@@ -8,10 +8,23 @@ package com.liu.gmall.order;
  */
 
 
+import com.liu.gmall.common.anno.EnableFeignClientInterceptor;
+import com.liu.gmall.common.anno.EnableThreadPoolExecutor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
+@EnableThreadPoolExecutor
+@EnableFeignClients(basePackages = {
+        "com.liu.gmall.feign.cart",
+        "com.liu.gmall.feign.user",
+        "com.liu.gmall.feign.product",
+        "com.liu.gmall.feign.ware"
+})
+@MapperScan(basePackages = "com.liu.gmall.order.mapper")
+@EnableFeignClientInterceptor
 public class OrderApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrderApplication.class, args);

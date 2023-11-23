@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
@@ -222,6 +223,17 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
 
     @Override
     public SkuInfo getSkuInfoById(Long skuId) {
+
+        RBloomFilter<Object> bloomFilter = redissonClient.getBloomFilter("skuIds-bloom-filter");
+        if (!bloomFilter.contains(skuId)){
+            return new SkuInfo();
+        }
+        String json = redisTemplate.opsForValue().get("sku:" + skuId);
+        if (!StringUtils.isEmpty(json)){
+            return JSON.parseObject(json,SkuInfo.class);
+        }
+        SkuInfo skuInfo = getById(skuId);
+        redisTemplate.opsForValue().set("sku:" + skuId,JSON.toJSONString(skuInfo));
         return getById(skuId);
     }
 

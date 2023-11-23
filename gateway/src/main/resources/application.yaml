@@ -26,6 +26,10 @@ spring:
           uri: lb://service-cart
           predicates:
             - Path=/api/cart/**
+        - id: service-order
+          uri: lb://service-order
+          predicates:
+            - Path=/api/order/**
         - id: web-all
           uri: lb://web-all
           predicates:
@@ -39,6 +43,6 @@ gmall:
       - /img/**
       - /js/**
     authurls:
-      - /order/**
-      - /payment/**
+      - /trade.html
+      - /**/auth/**
     loginpage: http://passport.gmall.com/login.html

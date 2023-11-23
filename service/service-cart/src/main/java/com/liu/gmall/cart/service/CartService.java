@@ -23,4 +23,8 @@ public interface CartService {
     void checkCart(Long skuId, Integer isChecked);
 
     void deleteCart(Long skuId);
+
+    void deleteCheckedCart();
+
+    List<CartItem> findByUserId();
 }
