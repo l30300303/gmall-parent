@@ -10,6 +10,7 @@ package com.liu.gmall.order;
 
 import com.liu.gmall.common.anno.EnableFeignClientInterceptor;
 import com.liu.gmall.common.anno.EnableThreadPoolExecutor;
+import com.liu.gmall.rabbit.anno.EnableRabbitTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +26,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 })
 @MapperScan(basePackages = "com.liu.gmall.order.mapper")
 @EnableFeignClientInterceptor
+@EnableRabbitTemplate
 public class OrderApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrderApplication.class, args);

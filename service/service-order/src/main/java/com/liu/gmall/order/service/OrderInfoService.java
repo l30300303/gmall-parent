@@ -18,4 +18,8 @@ public interface OrderInfoService extends IService<OrderInfo> {
     String submitOrder(String tradeNo, OrderSubmitDto orderSubmitDTO);
 
     Page<OrderInfo> getOrder(Integer pageNum, Integer pageSize);
+
+    void closeOrder(Long orderId,Long userId);
+
+    OrderInfo findOrderInfoById(Long orderId);
 }

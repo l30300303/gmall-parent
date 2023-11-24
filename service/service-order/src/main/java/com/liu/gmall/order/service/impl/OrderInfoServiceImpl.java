@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,6 +17,7 @@ import com.liu.gmall.cart.entity.CartItem;
 import com.liu.gmall.common.auth.UserAuthInfo;
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.common.utils.UserAuthUtils;
+import com.liu.gmall.enums.OrderStatus;
 import com.liu.gmall.feign.cart.CartFeignClient;
 import com.liu.gmall.feign.user.UserAddressFeignClient;
 import com.liu.gmall.order.dto.OrderSubmitDto;
@@ -110,8 +112,29 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     public Page<OrderInfo> getOrder(Integer pageNum, Integer pageSize) {
         LambdaQueryWrapper<OrderInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         UserAuthInfo userAuthInfo = UserAuthUtils.getUserAuthInfo();
-        lambdaQueryWrapper.eq(OrderInfo::getUserId,Long.valueOf(userAuthInfo.getUserId()));
-        Page<OrderInfo> page = new Page<>(pageNum,pageSize);
+        lambdaQueryWrapper.eq(OrderInfo::getUserId, Long.valueOf(userAuthInfo.getUserId()));
+        Page<OrderInfo> page = new Page<>(pageNum, pageSize);
         return page(page, lambdaQueryWrapper);
+    }
+
+    //关闭订单
+    @Override
+    public void closeOrder(Long orderId, Long userId) {
+        LambdaUpdateWrapper<OrderInfo> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(OrderInfo::getId, orderId);
+        lambdaUpdateWrapper.eq(OrderInfo::getUserId, userId);
+        lambdaUpdateWrapper.eq(OrderInfo::getOrderStatus, OrderStatus.UNPAID.name());
+        lambdaUpdateWrapper.set(OrderInfo::getOrderStatus, OrderStatus.CLOSED);
+        update(lambdaUpdateWrapper);
+    }
+
+    @Override
+    public OrderInfo findOrderInfoById(Long orderId) {
+        UserAuthInfo userAuthInfo = UserAuthUtils.getUserAuthInfo();
+        String userId = userAuthInfo.getUserId();
+        LambdaQueryWrapper<OrderInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(OrderInfo::getId, orderId);
+        lambdaQueryWrapper.eq(OrderInfo::getUserId, Long.parseLong(userId));
+        return this.getOne(lambdaQueryWrapper);
     }
 }
