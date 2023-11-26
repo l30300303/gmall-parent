@@ -9,7 +9,17 @@ spring:
     include: shardingsphere
   main:
     allow-bean-definition-overriding: true
-
+  rabbitmq:
+    host: 192.168.126.138
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: /
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual  #手动应答
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

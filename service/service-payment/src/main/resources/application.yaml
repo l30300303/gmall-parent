@@ -1,0 +1,29 @@
+server:
+  port: 10700
+
+feign:
+  sentinel:
+    enabled: true
+gmall:
+  alipay:
+    serverUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+    appId: 9021000123630423
+    privateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDKpwk8jpOFKuB2p6JEQRP2cD9L4ay84xkJBZOwq7P00klztMrroSHJy4hqXGwRfxE9BNzRyGyGemJlYZeoxbb2bbLD/g6AZgj92R36WZti7sVPXHVwuDLFGpnZjFNf8J4qwW1PQqG/Mhn2sMYnt8Yxals4IPR9HO5lIaJ2+UuYQfjJZor3/ZNo19uusvUEOYZc3AQjbRDs/tgASf3DNNen6FLoO3uXQCjFWbaPLGHBsIhCmRBraDSYE23V109yWEThZAzbssSmqWcRqmLRq8Ta1cVxYH13hZaGntPyflp5BpqV3fyxxiEIjc9vljsp8B3wFQrxIAoLGu2SJgSuDPQXAgMBAAECggEAZ0Q/HLC6071JrK03rvhKp+YDGzPgxlAjTcmdvQWCKluOOnwCe5gck6w305tNJo1Nx35W2D/9rXln8qmMkuBNn72+vskTsrJMGq8s64oF+KAbw5kl706t8Grhw04Snm0K7Fas0RrvOXLacC8citjHEh9UZIHGlIrNoJNHKsFWmDr90bf5m1XT3RhgMYcjM+iKeyUIBdLwaSx9jZJoM6ONfiTbQZ4Bj1tLykLtkYylFwT3oAGfes7gvC5VwQ13l5/d0E3YpibWFqSjQGRp4sIs6VO63x/1ldH83J9s7FtX8+vTCQ8Awn0HHAV8YWlh1orsYIfMMjeb82kCaVsf2IRzIQKBgQDoWH+2cjSyhqHEXISWf44Gmog6yY12qA6rL71b5VtnaiBeSM3ivihZWUM1rw5vN2FYekWhmxRMK2pKmNxxaiFf+zQ1abPcZkLOTEmyKvo0/vZquHpF9kIX2kr/FDe4+JUjfMc90bjeZO09CEbF75PPOmpK3lnaS/09b0GFbSVxiwKBgQDfSKiuyFOKLcLxrwgoh3ZP7aBTfmZ4HE28VE5IOY/2d9Zq3lZsMXSSBjTr+bP9HxE6eemm1KIR20RV7YJUIpaUj/9jRAGSsTejX04nC3r0b2oxJyOwfCV0sBjDk4y4/qaz/JaAb2pO7T40N53tu0o5lmPadUs2vr2b4YoQiNYBJQKBgEFPjybD15hPS+2cbBC57jxg9+Y+fata9jSciMfqItVg+ZRHNsiD12e2NbRDbvVIRe7O//+7TetTUN+DNIQU5yjJvhU9jzdm72R6AUU523dGLBI3pPdBj7aQwAAPuNIf3hxJmOABscuh5yX+y5YcEBpyOyqscelw7tB0E6Dj22CdAoGBALoqKIph+FUzRmCf4Rt5pkmKBKzYrLLkVmP5nrNVWxTSYfIEouXebiT6C9HcBhe7eW/aCdfRXbepq9ZBCvL/S7FeRj8Liow2Of97DPw89C0tX8rPqVASkmAyGtOmCCSOHYvfw9QeEPLxl3WOEZ0PFRnirCqOtUFV011OtQCINnYJAoGActzSMhOmQp8tzZlLJIcG+vaGp3vy3R4yfI9LTaZGK+N2Q0DFSLLsdPFH4XpISawPmzDAu3Q+GzM5FWK0pObQq1rJCOLUQq7ehMZI3zSZtCYmXRxhT/WMYiWP4DXtJOBR3pNGK/91FlKMGUjY+NjrQqdNrgvdOx9S1r/p0CxG2E4=
+    format: json
+    charset: utf-8
+    alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqPmFzm0k5k2X448iQwwkJ9lJkn3Xaaa4YenjL+MDlVdVNljwg4blKGBKMQ+IS30s6M0P6/Sv1Hl2r4DRGbF0KVl7zwwIb4QtD2+Ere8mt8OTuewaalN+E+lii5WzJVHy18ep4vfzMtj0mo/kaxaYkkDl6ZGMK9U/LHIYD+M2yKCa0HCgTv6D9tvBeMFh5Q3q9J/0l6c2JSsdmKbkmn10WNg5UBlyOcg+8yBXBPt2sE3oaDwibIOAvwP1PF7H3UyS/Vc7smgS+4Oig+l8DQciydKMMC9nct81oZ1tGY856d0fck9aU0tjTQyPGGQg4WXtBU8ZQWTw2hmhCJrtd8370wIDAQAB
+    signType: RSA2
+    notifyUrl: https://b341-1-80-81-47.ngrok-free.app/api/payment/alipay/listenpayed
+    returnUrl: http://gmall.com/success.html
+
+spring:
+  redis:
+    host: 192.168.126.138
+    port: 6379
+    password: 1234
+  rabbitmq:
+    host: 192.168.126.138
+    port: 5672
+    publisher-returns: true
+    publisher-confirm-type: correlated
+    virtual-host: /

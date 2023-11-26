@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 /*
  *@title SaveOrderHandler
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
  */
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.liu.gmall.common.auth.UserAuthInfo;
 import com.liu.gmall.common.utils.UserAuthUtils;
@@ -31,6 +34,7 @@ import com.liu.gmall.order.mapper.OrderStatusLogMapper;
 import com.liu.gmall.order.service.OrderDetailService;
 import com.liu.gmall.order.service.OrderInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +54,8 @@ public class SaveOrderHandler extends AbstractOrderHandler {
     @Autowired
     private CartFeignClient cartFeignClient;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
     @Override
     public int sort() {
         return 4;
@@ -68,8 +74,10 @@ public class SaveOrderHandler extends AbstractOrderHandler {
         cartFeignClient.deleteCheckedCart();
 
         // 需要一个延迟任务在30分钟后检查订单状态
-
-
+        Map<String,String> map = new HashMap<>();
+        map.put("orderId",String.valueOf(orderInfo.getId()));
+        map.put("userId",String.valueOf(orderInfo.getUserId()));
+        rabbitTemplate.convertAndSend("order.exchange","order.info", JSON.toJSONString(map));
         AbstractOrderHandler next = getNext();
         if (next != null) {
             return next.process(orderSubmitDto, tradeNo);
@@ -77,15 +85,6 @@ public class SaveOrderHandler extends AbstractOrderHandler {
         return String.valueOf(orderInfo.getId());
     }
 
-    //关闭订单
-    public void closeOrder(Long orderId,Long userId){
-        LambdaUpdateWrapper<OrderInfo> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.eq(OrderInfo::getId,orderId);
-        lambdaUpdateWrapper.eq(OrderInfo::getUserId,userId);
-        lambdaUpdateWrapper.eq(OrderInfo::getProcessStatus,OrderStatus.UNPAID.name());
-        lambdaUpdateWrapper.set(OrderInfo::getProcessStatus,OrderStatus.CLOSED);
-        orderInfoService.update(lambdaUpdateWrapper);
-    }
 
     private void saveOrderStatusLog(OrderInfo orderInfo) {
         OrderStatusLog orderStatusLog = new OrderStatusLog();

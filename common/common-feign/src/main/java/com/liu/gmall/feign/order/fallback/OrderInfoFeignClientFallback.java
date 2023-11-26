@@ -10,6 +10,7 @@ package com.liu.gmall.feign.order.fallback;
 
 import com.liu.gmall.common.result.Result;
 import com.liu.gmall.feign.order.OrderInfoFeignClient;
+import com.liu.gmall.order.entity.OrderInfo;
 import com.liu.gmall.order.vo.OrderConfirmVo;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderInfoFeignClientFallback implements OrderInfoFeignClient {
     @Override
     public Result<OrderConfirmVo> trade() {
-        log.info("执行OrderInfoFeignClientFallback。。。。。trade 的降级方法");
+        log.info("执行OrderInfoFeignClientFallback.....trade 的降级方法");
+        return Result.ok();
+    }
+
+    @Override
+    public Result<OrderInfo> findOrderInfoById(Long orderId) {
+        log.info("执行OrderInfoFeignClientFallback.....findOrderInfoById 的降级方法");
         return Result.ok();
     }
 }
