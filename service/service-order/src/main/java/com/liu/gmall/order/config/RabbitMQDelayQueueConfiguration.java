@@ -16,32 +16,32 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQDelayQueueConfiguration {
 
     @Bean
-    public Exchange orderExchange(){
+    public Exchange orderExchange() {
         return ExchangeBuilder.directExchange("order.exchange").durable(true).build();
     }
 
 
     @Bean
-    public Queue orderQueue(){
+    public Queue orderQueue() {
         return QueueBuilder.durable("order_queue")
-                .ttl(1000*30)
+                .ttl(1000 * 30)
                 .deadLetterExchange("order.exchange")
                 .deadLetterRoutingKey("close.order")
                 .build();
     }
 
     @Bean
-    public Binding binding(){
+    public Binding binding() {
         return BindingBuilder.bind(orderQueue()).to(orderExchange()).with("order.info").noargs();
     }
 
     @Bean
-    public Queue closeOrderQueue(){
+    public Queue closeOrderQueue() {
         return QueueBuilder.durable("close_order_queue").build();
     }
 
     @Bean
-    public Binding closeOrderBinding(){
+    public Binding closeOrderBinding() {
         return BindingBuilder.bind(closeOrderQueue()).to(orderExchange()).with("close.order").noargs();
     }
 }

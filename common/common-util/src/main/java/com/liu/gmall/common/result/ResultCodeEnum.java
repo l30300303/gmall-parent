@@ -36,6 +36,7 @@ public enum ResultCodeEnum {
     ORDER_FORM_REPEAT(228, "订单重复提交！"),
     SKU_HAS_STOCK_ERROR(229, "订单中存在缺货商品，请返回购物车重新提交订单！"),
     ORDER_INFO_PRICE_ERROR(230, "商品价格异常，请返回购物车重新提交订单！"),
+    ORDER_PAY_ERROR(231, "订单超时，请重新提交订单！"),
     ;
 
     private Integer code;

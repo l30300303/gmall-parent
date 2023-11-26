@@ -5,6 +5,10 @@ import com.liu.gmall.order.dto.OrderSubmitDto;
 import com.liu.gmall.order.entity.OrderInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liu.gmall.order.vo.OrderConfirmVo;
+import com.liu.gmall.ware.entity.WareStockMsg;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author L3030
@@ -22,4 +26,10 @@ public interface OrderInfoService extends IService<OrderInfo> {
     void closeOrder(Long orderId,Long userId);
 
     OrderInfo findOrderInfoById(Long orderId);
+
+    void orderPayedUpdateOrderStatus(Map<String, String> map);
+
+    void skuWareStockUpdateStatus(String msg);
+
+    List<WareStockMsg> orderSplit(Long orderId, String wareSkuMap);
 }

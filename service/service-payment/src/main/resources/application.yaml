@@ -13,5 +13,17 @@ gmall:
     charset: utf-8
     alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqPmFzm0k5k2X448iQwwkJ9lJkn3Xaaa4YenjL+MDlVdVNljwg4blKGBKMQ+IS30s6M0P6/Sv1Hl2r4DRGbF0KVl7zwwIb4QtD2+Ere8mt8OTuewaalN+E+lii5WzJVHy18ep4vfzMtj0mo/kaxaYkkDl6ZGMK9U/LHIYD+M2yKCa0HCgTv6D9tvBeMFh5Q3q9J/0l6c2JSsdmKbkmn10WNg5UBlyOcg+8yBXBPt2sE3oaDwibIOAvwP1PF7H3UyS/Vc7smgS+4Oig+l8DQciydKMMC9nct81oZ1tGY856d0fck9aU0tjTQyPGGQg4WXtBU8ZQWTw2hmhCJrtd8370wIDAQAB
     signType: RSA2
-    notifyUrl: http://www.baidu.com
-    returnUrl: http://api.gmall.com/success.html
+    notifyUrl: https://b341-1-80-81-47.ngrok-free.app/api/payment/alipay/listenpayed
+    returnUrl: http://gmall.com/success.html
+
+spring:
+  redis:
+    host: 192.168.126.138
+    port: 6379
+    password: 1234
+  rabbitmq:
+    host: 192.168.126.138
+    port: 5672
+    publisher-returns: true
+    publisher-confirm-type: correlated
+    virtual-host: /
