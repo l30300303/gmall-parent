@@ -24,7 +24,7 @@ public class RabbitMQDelayQueueConfiguration {
     @Bean
     public Queue orderQueue() {
         return QueueBuilder.durable("order_queue")
-                .ttl(1000 * 30)
+                .ttl(1000 * 60 * 30)
                 .deadLetterExchange("order.exchange")
                 .deadLetterRoutingKey("close.order")
                 .build();
