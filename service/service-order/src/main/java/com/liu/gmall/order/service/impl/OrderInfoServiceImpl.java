@@ -143,7 +143,15 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         UserAuthInfo userAuthInfo = UserAuthUtils.getUserAuthInfo();
         lambdaQueryWrapper.eq(OrderInfo::getUserId, Long.valueOf(userAuthInfo.getUserId()));
         Page<OrderInfo> page = new Page<>(pageNum, pageSize);
-        return page(page, lambdaQueryWrapper);
+        Page<OrderInfo> orderInfoPage = page(page, lambdaQueryWrapper);
+        orderInfoPage.getRecords().forEach(orderInfo -> {
+            LambdaQueryWrapper<OrderDetail> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper1.eq(OrderDetail::getOrderId,orderInfo.getId());
+            lambdaQueryWrapper1.eq(OrderDetail::getUserId,orderInfo.getUserId());
+            List<OrderDetail> orderDetailList = orderDetailMapper.selectList(lambdaQueryWrapper1);
+            orderInfo.setOrderDetails(orderDetailList);
+        });
+        return orderInfoPage;
     }
 
     //关闭订单

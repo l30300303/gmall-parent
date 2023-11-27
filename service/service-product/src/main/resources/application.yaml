@@ -7,7 +7,9 @@ spring:
     password: 1234
   profiles:
     include: shardingsphere
-
+  jackson:
+    date-format:  yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 
 
 #  datasource:

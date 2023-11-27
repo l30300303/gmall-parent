@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -139,6 +140,9 @@ public class OrderInfo implements Serializable {
      * 可退款日期（签收后30天）
      */
     private Date refundableTime;
+
+    @TableField(exist = false)
+    private List<OrderDetail> orderDetails;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
